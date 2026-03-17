@@ -569,7 +569,8 @@ body.dark .eye .shine     { fill: #0f0f0f; }
 /* floating label */
 .hero-label {
   position: absolute; bottom: -14px; left: -14px;
-  background: var(--black);
+  background: #0f0f0f;
+  color: #f5f0e8;
   padding: 12px 16px;
   display: flex; flex-direction: column;
   font-family: var(--font-condensed);
@@ -577,6 +578,7 @@ body.dark .eye .shine     { fill: #0f0f0f; }
   letter-spacing: 2px; text-transform: uppercase;
   line-height: 1.4;
 }
+body.dark .hero-label { background: #f5f0e8; color: #0f0f0f; }
 /* red corner accent */
 .hero-corner {
   position: absolute; top: -1px; right: -1px;
@@ -632,6 +634,9 @@ body.dark .eye .shine     { fill: #0f0f0f; }
   white-space: nowrap; color: #f5f0e8;
 }
 .ticker-track .sep { color: #b8966e; }
+/* Ticker always dark bg + light text regardless of mode */
+body.dark .ticker-wrap { background: #0f0f0f !important; }
+body.dark .ticker-track span { color: #f5f0e8 !important; }
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
