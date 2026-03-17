@@ -1,117 +1,150 @@
 // ══════════════════════════════════════════════════════
-//  script.js — Womboo Ecommerce
-//  Handles: products, cart, scroll animations,
-//           filter tabs, header, contact form
+//  script.js — WOMBOO Streetwear Ecommerce
+//  Black · Concrete Grey · Blood Red · 90s Archive
 // ══════════════════════════════════════════════════════
 
 
 // ── 1. PRODUCT DATA ────────────────────────────────
 // ✏️ Edit names, prices, categories, colours here.
-// To add a product image: set  image: 'images/your-photo.jpg'
+// Add product images: set  image: 'images/filename.jpg'
 
 const products = [
   {
-    id: 1, name: 'Cloud Linen Shirt',
-    category: 'tops', price: 89,
-    badge: 'new', colors: ['#f5f0e8','#c8d4c0','#2b2318'],
-    image: null, // ✏️ replace with: 'images/cloud-linen-shirt.jpg'
-    description: 'Relaxed linen shirt in a soft cloud-weight weave.'
+    id: 1,
+    name: 'Archive Crewneck',
+    category: 'tops',
+    price: 98,
+    badge: 'new',
+    colors: ['#e8e4dc', '#0a0a0a', '#9b1c1c'],
+    image: null, // ✏️ → 'images/archive-crewneck.jpg'
+    description: '400gsm heavyweight crewneck. Oversized fit. Stone-washed.'
   },
   {
-    id: 2, name: 'Soft Knit Tee',
-    category: 'tops', price: 55,
-    badge: null, colors: ['#faf6f0','#d9cbb8','#c49a6c'],
+    id: 2,
+    name: 'Washed Box Tee',
+    category: 'tops',
+    price: 55,
+    badge: null,
+    colors: ['#3d3d3d', '#e8e4dc'],
     image: null,
-    description: 'A gentle knit tee for all-day softness.'
+    description: 'Box-cut tee in garment-washed 220gsm cotton.'
   },
   {
-    id: 3, name: 'Wide Linen Trousers',
-    category: 'bottoms', price: 110,
-    badge: 'new', colors: ['#e8d5c4','#b5a28c'],
+    id: 3,
+    name: 'Utility Cargo Pant',
+    category: 'bottoms',
+    price: 130,
+    badge: 'new',
+    colors: ['#242424', '#6b6b6b', '#8a8a8a'],
     image: null,
-    description: 'Wide-leg trousers in breathable linen.'
+    description: 'Relaxed cargo in heavyweight ripstop. Six pockets.'
   },
   {
-    id: 4, name: 'Easy Cargo Pants',
-    category: 'bottoms', price: 98,
-    badge: null, colors: ['#2b2318','#c8d4c0','#d9cbb8'],
+    id: 4,
+    name: 'Womboo Track Pant',
+    category: 'bottoms',
+    price: 110,
+    badge: null,
+    colors: ['#0a0a0a', '#9b1c1c'],
     image: null,
-    description: 'Relaxed cargo with soft utility pockets.'
+    description: 'French terry trackpant. Womboo eyes embroidered at left hip.'
   },
   {
-    id: 5, name: 'Boxy Overshirt',
-    category: 'outerwear', price: 130,
-    badge: null, colors: ['#f5f0e8','#2b2318'],
+    id: 5,
+    name: 'Field Jacket',
+    category: 'outerwear',
+    price: 220,
+    badge: 'new',
+    colors: ['#3d3d3d', '#242424'],
     image: null,
-    description: 'A boxy overshirt in washed canvas.'
+    description: 'Four-pocket field jacket in waxed cotton canvas.'
   },
   {
-    id: 6, name: 'Soft Knit Cardigan',
-    category: 'outerwear', price: 145,
-    badge: 'new', colors: ['#faf6f0','#e8d5c4','#c8d4c0'],
+    id: 6,
+    name: 'Oversized Coach',
+    category: 'outerwear',
+    price: 185,
+    badge: null,
+    colors: ['#0a0a0a', '#e8e4dc', '#9b1c1c'],
     image: null,
-    description: 'Chunky knit cardigan in a palette of soft neutrals.'
+    description: 'Coach jacket in nylon ripstop. Dropped shoulders. Boxy.'
   },
   {
-    id: 7, name: 'Organic Cotton Shorts',
-    category: 'bottoms', price: 72,
-    badge: null, colors: ['#b5a28c','#d9cbb8'],
+    id: 7,
+    name: 'Archive Short',
+    category: 'bottoms',
+    price: 75,
+    badge: 'sale',
+    originalPrice: 95,
+    colors: ['#8a8a8a', '#0a0a0a'],
     image: null,
-    description: 'Lightweight organic cotton shorts with an easy drawstring.'
+    description: 'Heavyweight 8" inseam short. Garment-dyed concrete grey.'
   },
   {
-    id: 8, name: 'Ribbed Tank Top',
-    category: 'tops', price: 42,
-    badge: 'sale', originalPrice: 58, colors: ['#faf6f0','#2b2318','#c49a6c'],
+    id: 8,
+    name: 'Logo Longsleeve',
+    category: 'tops',
+    price: 68,
+    badge: null,
+    colors: ['#242424', '#e8e4dc'],
     image: null,
-    description: 'A fine-rib tank in washed organic cotton.'
+    description: 'Heavyweight longsleeve. Womboo eyes screenprint chest-hit.'
   },
   {
-    id: 9, name: 'Womboo Tote Bag',
-    category: 'accessories', price: 38,
-    badge: null, colors: ['#f5f0e8','#2b2318'],
+    id: 9,
+    name: 'Womboo Cap',
+    category: 'accessories',
+    price: 45,
+    badge: null,
+    colors: ['#0a0a0a', '#e8e4dc'],
     image: null,
-    description: 'Heavy canvas tote with the Womboo eyes logo.'
+    description: 'Six-panel structured cap. Womboo eyes embroidered at front.'
   },
   {
-    id: 10, name: 'Scrunchie Set',
-    category: 'accessories', price: 22,
-    badge: null, colors: ['#e8d5c4','#c8d4c0','#d9cbb8'],
+    id: 10,
+    name: 'Archive Tote',
+    category: 'accessories',
+    price: 38,
+    badge: null,
+    colors: ['#e8e4dc', '#0a0a0a'],
     image: null,
-    description: 'Set of three scrunchies in coordinating linen fabrics.'
+    description: '16oz canvas tote. Drop handle. Womboo logo screenprint.'
   },
   {
-    id: 11, name: 'Trench Coat',
-    category: 'outerwear', price: 220,
-    badge: 'new', colors: ['#d9cbb8','#2b2318'],
+    id: 11,
+    name: 'Quilted Work Jacket',
+    category: 'outerwear',
+    price: 250,
+    badge: 'new',
+    colors: ['#1a1a1a', '#3d3d3d'],
     image: null,
-    description: 'A relaxed trench in water-resistant cotton blend.'
+    description: 'Quilted work jacket in washed poly-fill. Barn collar.'
   },
   {
-    id: 12, name: 'Linen Cap',
-    category: 'accessories', price: 45,
-    badge: null, colors: ['#f5f0e8','#b5a28c','#2b2318'],
+    id: 12,
+    name: 'Chain Wallet',
+    category: 'accessories',
+    price: 55,
+    badge: null,
+    colors: ['#8a8a8a', '#0a0a0a'],
     image: null,
-    description: 'Washed linen cap with tonal Womboo embroidery.'
+    description: 'Full-grain leather bifold with stainless chain. Womboo stamp.'
   }
 ];
 
 
 // ── 2. CART STATE ──────────────────────────────────
-// The cart is an array of { product, qty } objects.
-// All cart functions live here so they're easy to find.
-
 let cart = [];
 
-function getCartItem(productId) {
-  return cart.find(item => item.product.id === productId);
+function getCartItem(id) {
+  return cart.find(item => item.product.id === id);
 }
 
-function addToCart(productId) {
-  const product = products.find(p => p.id === productId);
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
   if (!product) return;
 
-  const existing = getCartItem(productId);
+  const existing = getCartItem(id);
   if (existing) {
     existing.qty += 1;
   } else {
@@ -120,47 +153,42 @@ function addToCart(productId) {
 
   renderCart();
   openCart();
-  bumpCartCount();
+  bumpCount();
 }
 
-function removeFromCart(productId) {
-  cart = cart.filter(item => item.product.id !== productId);
+function removeFromCart(id) {
+  cart = cart.filter(item => item.product.id !== id);
   renderCart();
 }
 
-function changeQty(productId, delta) {
-  const item = getCartItem(productId);
+function changeQty(id, delta) {
+  const item = getCartItem(id);
   if (!item) return;
   item.qty += delta;
-  if (item.qty <= 0) removeFromCart(productId);
+  if (item.qty <= 0) removeFromCart(id);
   else renderCart();
 }
 
-function getCartTotal() {
-  return cart.reduce((sum, item) => sum + item.product.price * item.qty, 0);
+function cartTotal() {
+  return cart.reduce((sum, i) => sum + i.product.price * i.qty, 0);
 }
 
-function getCartCount() {
-  return cart.reduce((sum, item) => sum + item.qty, 0);
+function cartCount() {
+  return cart.reduce((sum, i) => sum + i.qty, 0);
 }
 
 
 // ── 3. RENDER CART ─────────────────────────────────
 function renderCart() {
-  const container  = document.getElementById('cart-items');
-  const totalEl    = document.getElementById('cart-total-price');
-  const countEl    = document.getElementById('cart-count');
+  const container = document.getElementById('cart-items');
+  const totalEl   = document.getElementById('cart-total-price');
+  const countEl   = document.getElementById('cart-count');
 
-  // Update count badge
-  const count = getCartCount();
-  countEl.textContent = count;
+  countEl.textContent = cartCount();
+  totalEl.textContent = '$' + cartTotal().toFixed(2);
 
-  // Update total
-  totalEl.textContent = '$' + getCartTotal().toFixed(2);
-
-  // Render items
   if (cart.length === 0) {
-    container.innerHTML = '<p class="cart-empty">Your bag is empty 🌿</p>';
+    container.innerHTML = '<p class="cart-empty">Your bag is empty.</p>';
     return;
   }
 
@@ -169,8 +197,8 @@ function renderCart() {
       <div class="cart-item-img">
         ${item.product.image
           ? `<img src="${item.product.image}" alt="${item.product.name}">`
-          : `<svg width="28" height="28" viewBox="0 0 64 64" fill="none" stroke="#b5a28c" stroke-width="1.5">
-               <rect x="8" y="8" width="48" height="48" rx="4"/>
+          : `<svg width="24" height="24" viewBox="0 0 64 64" fill="none" stroke="#3d3d3d" stroke-width="1.5">
+               <rect x="8" y="8" width="48" height="48" rx="2"/>
                <circle cx="32" cy="28" r="10"/>
                <path d="M16 56 Q32 42 48 56"/>
              </svg>`
@@ -185,13 +213,13 @@ function renderCart() {
           <button class="qty-btn" onclick="changeQty(${item.product.id}, +1)">+</button>
         </div>
       </div>
-      <button class="cart-item-remove" onclick="removeFromCart(${item.product.id})" aria-label="Remove">✕</button>
+      <button class="cart-item-remove" onclick="removeFromCart(${item.product.id})">✕</button>
     </div>
   `).join('');
 }
 
 
-// ── 4. OPEN / CLOSE CART ───────────────────────────
+// ── 4. CART OPEN / CLOSE ───────────────────────────
 function openCart() {
   document.getElementById('cart-sidebar').classList.add('open');
   document.getElementById('cart-overlay').classList.add('open');
@@ -204,10 +232,10 @@ function closeCart() {
   document.body.style.overflow = '';
 }
 
-function bumpCartCount() {
+function bumpCount() {
   const el = document.getElementById('cart-count');
   el.classList.remove('bump');
-  void el.offsetWidth; // force reflow
+  void el.offsetWidth;
   el.classList.add('bump');
 }
 
@@ -219,19 +247,19 @@ document.getElementById('cart-overlay').addEventListener('click', closeCart);
 // ── 5. RENDER PRODUCT GRID ─────────────────────────
 function renderProducts(filter = 'all') {
   const grid = document.getElementById('product-grid');
-  const filtered = filter === 'all'
+  const list = filter === 'all'
     ? products
     : products.filter(p => p.category === filter);
 
-  grid.innerHTML = filtered.map((p, i) => `
-    <div class="product-card" data-id="${p.id}" style="transition-delay:${(i % 4) * 80}ms">
+  grid.innerHTML = list.map((p, i) => `
+    <div class="product-card" data-id="${p.id}" style="transition-delay:${(i % 4) * 60}ms">
       <div class="product-img-wrap">
 
         ${p.image
           ? `<img src="${p.image}" alt="${p.name}" loading="lazy">`
           : `<div class="product-img-placeholder">
-               <svg width="40" height="40" viewBox="0 0 64 64" fill="none" stroke="#b5a28c" stroke-width="1.5">
-                 <rect x="8" y="8" width="48" height="48" rx="4"/>
+               <svg width="36" height="36" viewBox="0 0 64 64" fill="none" stroke="#3d3d3d" stroke-width="1.5">
+                 <rect x="8" y="8" width="48" height="48" rx="2"/>
                  <circle cx="32" cy="28" r="10"/>
                  <path d="M16 56 Q32 42 48 56"/>
                </svg>
@@ -239,22 +267,22 @@ function renderProducts(filter = 'all') {
              </div>`
         }
 
-        ${p.badge ? `<span class="product-tag-badge tag-${p.badge}">${p.badge}</span>` : ''}
+        ${p.badge ? `<span class="product-badge tag-${p.badge}">${p.badge.toUpperCase()}</span>` : ''}
 
         <button class="product-quick-add" onclick="addToCart(${p.id})">
-          + Add to bag
+          + ADD TO BAG
         </button>
       </div>
 
       <div class="product-info">
-        <div class="product-info-top">
+        <div class="product-info-row">
           <span class="product-name">${p.name}</span>
           <span class="product-price">
             ${p.originalPrice ? `<span class="original">$${p.originalPrice}</span>` : ''}
             $${p.price}
           </span>
         </div>
-        <div class="product-category">${p.category}</div>
+        <div class="product-cat">${p.category.toUpperCase()}</div>
         <div class="product-colors">
           ${p.colors.map(c =>
             `<span class="color-dot" style="background:${c}" title="${c}"></span>`
@@ -264,7 +292,6 @@ function renderProducts(filter = 'all') {
     </div>
   `).join('');
 
-  // Re-observe cards for scroll animation
   observeCards();
 }
 
@@ -274,136 +301,114 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const filter = btn.dataset.filter;
 
-    // Fade grid out, swap, fade in
     const grid = document.getElementById('product-grid');
+    grid.style.transition = 'opacity 0.2s, transform 0.2s';
     grid.style.opacity = '0';
-    grid.style.transform = 'translateY(10px)';
-    grid.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    grid.style.transform = 'translateY(8px)';
+
     setTimeout(() => {
-      renderProducts(filter);
+      renderProducts(btn.dataset.filter);
       grid.style.opacity = '1';
       grid.style.transform = 'translateY(0)';
-    }, 250);
+    }, 200);
   });
 });
 
 
-// ── 7. SCROLL REVEAL ──────────────────────────────
-// Uses IntersectionObserver to add .in-view to elements
-// when they scroll into the viewport.
-
-const revealObserver = new IntersectionObserver((entries) => {
+// ── 7. INTERSECTION OBSERVER (scroll reveal) ───────
+const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el    = entry.target;
-      const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
-      setTimeout(() => el.classList.add('in-view'), delay);
-      revealObserver.unobserve(el);
-    }
+    if (!entry.isIntersecting) return;
+    const el    = entry.target;
+    const delay = parseInt(el.dataset.delay || 0);
+    setTimeout(() => el.classList.add('in-view'), delay);
+    observer.unobserve(el);
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.12 });
 
 function observeAll() {
-  document.querySelectorAll('.reveal-up, .reveal-fade').forEach(el => {
-    revealObserver.observe(el);
-  });
+  document.querySelectorAll('.reveal-up, .reveal-clip').forEach(el => observer.observe(el));
 }
 
 function observeCards() {
-  document.querySelectorAll('.product-card').forEach(card => {
-    revealObserver.observe(card);
-  });
+  document.querySelectorAll('.product-card').forEach(el => observer.observe(el));
 }
 
 
-// ── 8. HERO TEXT REVEAL ───────────────────────────
-// Animates each line of the hero title on load.
-
-function animateHeroLines() {
-  document.querySelectorAll('.hero-title .reveal-line').forEach((line, i) => {
+// ── 8. HERO TITLE ANIMATION ────────────────────────
+// Staggered clip-path reveal on each title line at load.
+function animateHero() {
+  document.querySelectorAll('.hero-title .title-line').forEach(line => {
     const delay = parseInt(line.dataset.delay || 0);
     line.style.opacity = '0';
-    line.style.transform = 'translateY(40px)';
-    line.style.transition = `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`;
-    // trigger after a tiny delay to allow transition to register
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        line.style.opacity = '1';
-        line.style.transform = 'translateY(0)';
-      });
-    });
+    line.style.clipPath = 'inset(0 0 100% 0)';
+    line.style.transition = `opacity 0.6s ease ${delay}ms, clip-path 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      line.style.opacity = '1';
+      line.style.clipPath = 'inset(0 0 0% 0)';
+    }));
   });
 }
 
 
 // ── 9. STICKY HEADER ──────────────────────────────
 window.addEventListener('scroll', () => {
-  const header = document.getElementById('header');
-  if (window.scrollY > 20) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
 
 
 // ── 10. MOBILE HAMBURGER ──────────────────────────
-document.getElementById('hamburger').addEventListener('click', function () {
-  this.classList.toggle('open');
-  document.getElementById('mobile-menu').classList.toggle('open');
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
 });
 
-// Close mobile menu when a link is clicked
 document.querySelectorAll('.mobile-link').forEach(link => {
   link.addEventListener('click', () => {
-    document.getElementById('hamburger').classList.remove('open');
-    document.getElementById('mobile-menu').classList.remove('open');
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
   });
 });
 
 
 // ── 11. CONTACT FORM ──────────────────────────────
-document.getElementById('contact-form').addEventListener('submit', function (e) {
+document.getElementById('contact-form').addEventListener('submit', function(e) {
   e.preventDefault();
-  // ✏️ Replace this with a real form submission (e.g. Formspree, EmailJS)
-  const successMsg = document.getElementById('form-success');
-  successMsg.classList.add('show');
+  // ✏️ Swap in Formspree / EmailJS here when ready
+  const msg = document.getElementById('form-success');
+  msg.classList.add('show');
   this.reset();
-  setTimeout(() => successMsg.classList.remove('show'), 4000);
+  setTimeout(() => msg.classList.remove('show'), 4000);
 });
 
 
-// ── 12. SMOOTH ANCHOR SCROLLING ───────────────────
-// Accounts for the fixed header height when jumping to sections.
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener('click', e => {
-    const target = document.querySelector(link.getAttribute('href'));
+// ── 12. SMOOTH SCROLL (offset for fixed nav) ──────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
     if (!target) return;
     e.preventDefault();
     const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
-    const top = target.getBoundingClientRect().top + window.scrollY - navH;
-    window.scrollTo({ top, behavior: 'smooth' });
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - navH, behavior: 'smooth' });
   });
 });
 
 
-// ── 13. PARALLAX BLOBS ────────────────────────────
-// Gives the hero background blobs a gentle parallax on scroll.
+// ── 13. HERO PARALLAX ─────────────────────────────
+// The giant ghost type in the hero background moves
+// slightly slower than the page — classic parallax.
 window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  const b1 = document.querySelector('.blob-1');
-  const b2 = document.querySelector('.blob-2');
-  const b3 = document.querySelector('.blob-3');
-  if (b1) b1.style.transform = `translateY(${y * 0.15}px)`;
-  if (b2) b2.style.transform = `translateY(${-y * 0.1}px)`;
-  if (b3) b3.style.transform = `translateY(${y * 0.08}px)`;
+  const bgType = document.querySelector('.hero-bg-type');
+  if (bgType) bgType.style.transform = `translate(-50%, calc(-50% + ${window.scrollY * 0.2}px))`;
 }, { passive: true });
 
 
 // ── INIT ──────────────────────────────────────────
-renderProducts();   // build the product grid
-renderCart();       // initialise cart badge at 0
-animateHeroLines(); // kick off hero text animation
-observeAll();       // start scroll observers
+renderProducts();
+renderCart();
+animateHero();
+observeAll();

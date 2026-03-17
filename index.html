@@ -1,67 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Womboo — Wear Something Soft</title>
+  <title>WOMBOO — 90s Archive Drop</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════
+  <!-- grain overlay -->
+  <div class="grain"></div>
+
+  <!-- ══════════════════════════════
        CART SIDEBAR
-  ══════════════════════════════════════ -->
+  ══════════════════════════════ -->
   <div class="cart-overlay" id="cart-overlay"></div>
   <aside class="cart-sidebar" id="cart-sidebar">
     <div class="cart-header">
-      <h2>Your Bag</h2>
-      <button class="cart-close" id="cart-close" aria-label="Close cart">✕</button>
+      <span class="cart-header-label">YOUR BAG</span>
+      <button class="cart-close" id="cart-close">✕</button>
     </div>
     <div class="cart-items" id="cart-items">
-      <p class="cart-empty">Your bag is empty 🌿</p>
+      <p class="cart-empty">Your bag is empty.</p>
     </div>
-    <div class="cart-footer" id="cart-footer">
+    <div class="cart-footer">
       <div class="cart-total">
-        <span>Total</span>
+        <span>TOTAL</span>
         <span id="cart-total-price">$0.00</span>
       </div>
-      <button class="btn-checkout">Checkout →</button>
+      <button class="btn-checkout">CHECKOUT →</button>
     </div>
   </aside>
 
-  <!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════
        HEADER
-  ══════════════════════════════════════ -->
+  ══════════════════════════════ -->
   <header class="header" id="header">
     <nav class="nav">
+
       <ul class="nav-links nav-left">
-        <li><a href="#shop">Shop</a></li>
-        <li><a href="#about">About</a></li>
+        <li><a href="#shop">SHOP</a></li>
+        <li><a href="#about">ABOUT</a></li>
       </ul>
 
-      <a href="#" class="logo" aria-label="Womboo home">
-        <svg class="logo-svg" viewBox="0 0 200 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- LOGO: WOMB + two eye O's -->
+      <a href="#" class="logo" aria-label="Womboo">
+        <svg class="logo-svg" viewBox="0 0 210 46" fill="none" xmlns="http://www.w3.org/2000/svg">
           <text x="0" y="38" class="logo-text">WOMB</text>
-          <g class="eye" transform="translate(115,10)">
-            <ellipse cx="12" cy="13" rx="12" ry="13" fill="var(--cream)" stroke="var(--ink)" stroke-width="2.2"/>
-            <circle cx="12" cy="14" r="5.5" fill="var(--ink)"/>
-            <circle cx="14" cy="11" r="1.8" fill="var(--cream)"/>
+          <!-- Eye 1 -->
+          <g class="eye" transform="translate(119,7)">
+            <ellipse cx="13" cy="15" rx="13" ry="15" fill="var(--black)" stroke="var(--off-white)" stroke-width="2"/>
+            <circle cx="13" cy="16" r="6" fill="var(--off-white)"/>
+            <circle cx="15" cy="13" r="2" fill="var(--black)"/>
           </g>
-          <g class="eye" transform="translate(143,10)">
-            <ellipse cx="12" cy="13" rx="12" ry="13" fill="var(--cream)" stroke="var(--ink)" stroke-width="2.2"/>
-            <circle cx="12" cy="14" r="5.5" fill="var(--ink)"/>
-            <circle cx="14" cy="11" r="1.8" fill="var(--cream)"/>
+          <!-- Eye 2 -->
+          <g class="eye" transform="translate(150,7)">
+            <ellipse cx="13" cy="15" rx="13" ry="15" fill="var(--black)" stroke="var(--off-white)" stroke-width="2"/>
+            <circle cx="13" cy="16" r="6" fill="var(--off-white)"/>
+            <circle cx="15" cy="13" r="2" fill="var(--black)"/>
           </g>
         </svg>
       </a>
 
       <ul class="nav-links nav-right">
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#contact">CONTACT</a></li>
         <li>
-          <button class="cart-btn" id="cart-btn" aria-label="Open cart">
-            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <button class="cart-btn" id="cart-btn" aria-label="Cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 01-8 0"/>
@@ -71,269 +78,319 @@
         </li>
       </ul>
 
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <button class="hamburger" id="hamburger">
         <span></span><span></span><span></span>
       </button>
     </nav>
+
     <div class="mobile-menu" id="mobile-menu">
-      <a href="#shop"    class="mobile-link">Shop</a>
-      <a href="#about"   class="mobile-link">About</a>
-      <a href="#contact" class="mobile-link">Contact</a>
+      <a href="#shop"    class="mobile-link">SHOP</a>
+      <a href="#about"   class="mobile-link">ABOUT</a>
+      <a href="#contact" class="mobile-link">CONTACT</a>
     </div>
   </header>
 
-  <!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════
        HERO
-  ══════════════════════════════════════ -->
+  ══════════════════════════════ -->
   <section class="hero" id="hero">
-    <div class="hero-bg-blob blob-1"></div>
-    <div class="hero-bg-blob blob-2"></div>
-    <div class="hero-bg-blob blob-3"></div>
 
-    <div class="hero-content">
-      <p class="hero-tag reveal-fade" data-delay="100">New Collection · SS25</p>
-      <h1 class="hero-title">
-        <span class="reveal-line" data-delay="200">Wear</span>
-        <span class="reveal-line italic" data-delay="320">something</span>
-        <span class="reveal-line" data-delay="440">soft.</span>
-      </h1>
-      <p class="hero-sub reveal-fade" data-delay="600">
-        Clothing that feels as good as it looks —<br>
-        designed for the slow, easy days.
-      </p>
-      <div class="hero-actions reveal-fade" data-delay="750">
-        <a href="#shop" class="btn-primary">Shop Now</a>
-        <a href="#about" class="btn-ghost">Our Story</a>
-      </div>
+    <!-- big stacked type background -->
+    <div class="hero-bg-type" aria-hidden="true">
+      <span>WOMBOO</span>
+      <span>WOMBOO</span>
     </div>
 
-    <div class="hero-image reveal-fade" data-delay="400">
-      <div class="hero-img-placeholder">
-        <div class="img-inner">
-          <svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="var(--beige-mid)" stroke-width="1.5">
-            <rect x="8" y="8" width="48" height="48" rx="4"/>
-            <circle cx="32" cy="28" r="10"/>
-            <path d="M16 56 Q32 42 48 56"/>
-          </svg>
-          <p>Hero image<br><small>Replace with &lt;img&gt;</small></p>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-season reveal-clip" data-delay="0">SS25 — ARCHIVE DROP 001</p>
+
+        <h1 class="hero-title">
+          <span class="title-line reveal-clip" data-delay="100">WEAR</span>
+          <span class="title-line title-red reveal-clip" data-delay="220">LOUD.</span>
+          <span class="title-line reveal-clip" data-delay="340">LIVE</span>
+          <span class="title-line reveal-clip" data-delay="460">QUIET.</span>
+        </h1>
+
+        <p class="hero-sub reveal-up" data-delay="620">
+          Heavyweight cuts. Washed-out tones.<br>
+          Built for the street, worn forever.
+        </p>
+
+        <div class="hero-ctas reveal-up" data-delay="780">
+          <a href="#shop" class="btn-primary">SHOP THE DROP</a>
+          <a href="#about" class="btn-ghost">OUR STORY</a>
         </div>
       </div>
-      <div class="hero-badge">
-        <span>New</span>
-        <span>Drop</span>
+
+      <!-- Hero image block -->
+      <div class="hero-img-block reveal-up" data-delay="300">
+        <div class="hero-img-frame">
+          <div class="img-placeholder">
+            <!-- ✏️ Replace with: <img src="images/hero.jpg" alt="Womboo hero"> -->
+            <svg width="52" height="52" viewBox="0 0 64 64" fill="none" stroke="var(--grey-mid)" stroke-width="1.5">
+              <rect x="8" y="8" width="48" height="48" rx="2"/>
+              <circle cx="32" cy="28" r="10"/>
+              <path d="M16 56 Q32 42 48 56"/>
+            </svg>
+            <span>Hero image</span>
+          </div>
+        </div>
+        <!-- floating label -->
+        <div class="hero-label">
+          <span>001</span>
+          <span>ARCHIVE</span>
+        </div>
+        <!-- red corner accent -->
+        <div class="hero-corner"></div>
       </div>
     </div>
 
-    <div class="hero-scroll-hint">
-      <span>scroll</span>
-      <div class="scroll-line"></div>
+    <!-- scroll indicator -->
+    <div class="scroll-hint">
+      <div class="scroll-bar"></div>
+      <span>SCROLL</span>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════
-       MARQUEE STRIP
-  ══════════════════════════════════════ -->
-  <div class="marquee-strip">
-    <div class="marquee-track">
-      <span>Free shipping over $80</span><span class="dot">·</span>
-      <span>Sustainable fabrics</span><span class="dot">·</span>
-      <span>Slow fashion</span><span class="dot">·</span>
-      <span>Made to last</span><span class="dot">·</span>
-      <span>New SS25 drop</span><span class="dot">·</span>
-      <span>Free shipping over $80</span><span class="dot">·</span>
-      <span>Sustainable fabrics</span><span class="dot">·</span>
-      <span>Slow fashion</span><span class="dot">·</span>
-      <span>Made to last</span><span class="dot">·</span>
-      <span>New SS25 drop</span><span class="dot">·</span>
+  <!-- ══════════════════════════════
+       TICKER
+  ══════════════════════════════ -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span>WOMBOO SS25</span><span class="sep">—</span>
+      <span>ARCHIVE DROP 001</span><span class="sep">—</span>
+      <span>HEAVYWEIGHT CUTS</span><span class="sep">—</span>
+      <span>FREE SHIP $80+</span><span class="sep">—</span>
+      <span>LIMITED UNITS</span><span class="sep">—</span>
+      <span>WOMBOO SS25</span><span class="sep">—</span>
+      <span>ARCHIVE DROP 001</span><span class="sep">—</span>
+      <span>HEAVYWEIGHT CUTS</span><span class="sep">—</span>
+      <span>FREE SHIP $80+</span><span class="sep">—</span>
+      <span>LIMITED UNITS</span><span class="sep">—</span>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════
        SHOP
-  ══════════════════════════════════════ -->
+  ══════════════════════════════ -->
   <section class="section shop-section" id="shop">
-    <div class="section-header reveal-up">
-      <p class="section-tag">The Collection</p>
-      <h2 class="section-title">Shop All</h2>
+
+    <div class="shop-header reveal-up">
+      <div class="shop-header-left">
+        <p class="section-label">THE COLLECTION</p>
+        <h2 class="section-title">SHOP ALL</h2>
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-btn active" data-filter="all">ALL</button>
+        <button class="filter-btn" data-filter="tops">TOPS</button>
+        <button class="filter-btn" data-filter="bottoms">BOTTOMS</button>
+        <button class="filter-btn" data-filter="outerwear">OUTER</button>
+        <button class="filter-btn" data-filter="accessories">ACCESS.</button>
+      </div>
     </div>
-    <div class="filter-tabs reveal-up">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="tops">Tops</button>
-      <button class="filter-btn" data-filter="bottoms">Bottoms</button>
-      <button class="filter-btn" data-filter="outerwear">Outerwear</button>
-      <button class="filter-btn" data-filter="accessories">Accessories</button>
-    </div>
-    <!-- Products injected by JS -->
+
     <div class="product-grid" id="product-grid"></div>
+
   </section>
 
-  <!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════
        ABOUT
-  ══════════════════════════════════════ -->
-  <section class="about-strip" id="about">
-    <div class="about-blob"></div>
-    <div class="about-text">
-      <p class="section-tag reveal-up">Our Story</p>
-      <h2 class="reveal-up">Born from the <em>quiet</em> moments.</h2>
-      <p class="reveal-up">
-        Womboo started with a simple idea: clothes that don't shout.
-        Pieces you reach for on a Sunday morning, that travel with you,
-        that age gracefully. We design in small batches using considered
-        fabrics — because less is always more.
-      </p>
-      <p class="reveal-up muted-text">
-        <!-- ✏️ Add more brand story here -->
-        [Add more of your brand story here — your values, how it started, what makes Womboo different.]
-      </p>
-      <a href="#contact" class="btn-primary reveal-up" style="margin-top:1.5rem; display:inline-block;">Say Hello →</a>
-    </div>
-    <div class="about-visual reveal-fade">
-      <div class="about-img-placeholder">
-        <div class="img-inner">
-          <svg width="52" height="52" viewBox="0 0 64 64" fill="none" stroke="var(--beige-mid)" stroke-width="1.5">
-            <rect x="8" y="8" width="48" height="48" rx="4"/>
-            <circle cx="32" cy="28" r="10"/>
-            <path d="M16 56 Q32 42 48 56"/>
-          </svg>
-          <p>Brand photo<br><small>Replace with &lt;img&gt;</small></p>
+  ══════════════════════════════ -->
+  <section class="about-section" id="about">
+
+    <div class="about-number reveal-up" aria-hidden="true">001</div>
+
+    <div class="about-grid">
+      <div class="about-img-col reveal-up">
+        <div class="about-img-frame">
+          <div class="img-placeholder">
+            <!-- ✏️ Replace with <img src="images/about.jpg" alt="About Womboo"> -->
+            <svg width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="var(--grey-mid)" stroke-width="1.5">
+              <rect x="8" y="8" width="48" height="48" rx="2"/>
+              <circle cx="32" cy="28" r="10"/>
+              <path d="M16 56 Q32 42 48 56"/>
+            </svg>
+            <span>Brand photo</span>
+          </div>
         </div>
+        <div class="about-img-tag">EST. 2025</div>
       </div>
-      <div class="about-stat stat-1 reveal-up">
-        <span class="stat-n">100%</span>
-        <span class="stat-l">Natural fibres</span>
-      </div>
-      <div class="about-stat stat-2 reveal-up">
-        <span class="stat-n">SS25</span>
-        <span class="stat-l">Latest drop</span>
+
+      <div class="about-text-col">
+        <p class="section-label reveal-up">OUR STORY</p>
+        <h2 class="reveal-up">BORN FROM<br><span class="text-red">THE STREET.</span></h2>
+
+        <p class="reveal-up">
+          Womboo didn't start in a studio.
+          It started on corners, in basements, in the back of cars.
+          A brand built around the idea that the best clothes are the ones
+          you don't think twice about putting on — heavy, honest, real.
+        </p>
+        <p class="reveal-up muted">
+          <!-- ✏️ Add more of your brand story here -->
+          [Add more of your story — where you're from, what drives the brand, what Womboo means to you.]
+        </p>
+
+        <div class="about-stats reveal-up">
+          <div class="astat">
+            <span class="astat-n">100%</span>
+            <span class="astat-l">HEAVYWEIGHT<br>COTTON</span>
+          </div>
+          <div class="astat">
+            <span class="astat-n">SS25</span>
+            <span class="astat-l">CURRENT<br>SEASON</span>
+          </div>
+          <div class="astat">
+            <span class="astat-n">001</span>
+            <span class="astat-l">ARCHIVE<br>DROP</span>
+          </div>
+        </div>
+
+        <a href="#shop" class="btn-primary reveal-up">SHOP THE DROP →</a>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════
        FEATURES
-  ══════════════════════════════════════ -->
+  ══════════════════════════════ -->
   <section class="features-row">
     <div class="feature reveal-up" data-delay="0">
-      <div class="feature-icon">🌿</div>
-      <h3>Sustainable</h3>
-      <p>Fabrics chosen with the planet in mind — natural, organic, and recycled.</p>
+      <span class="feat-num">01</span>
+      <h3>HEAVYWEIGHT</h3>
+      <p>400gsm+ cotton. Structured from day one, broken in over time.</p>
     </div>
-    <div class="feature reveal-up" data-delay="120">
-      <div class="feature-icon">🚚</div>
-      <h3>Free Shipping</h3>
-      <p>Free shipping on all orders over $80. Fast, tracked, and carbon-offset.</p>
+    <div class="feature reveal-up" data-delay="100">
+      <span class="feat-num">02</span>
+      <h3>FREE SHIPPING</h3>
+      <!-- ✏️ Update threshold as needed -->
+      <p>On all orders over $80. Fast, tracked, no excuses.</p>
     </div>
-    <div class="feature reveal-up" data-delay="240">
-      <div class="feature-icon">↩️</div>
-      <h3>Easy Returns</h3>
-      <p>30-day hassle-free returns. We want you to love what you wear.</p>
+    <div class="feature reveal-up" data-delay="200">
+      <span class="feat-num">03</span>
+      <h3>30-DAY RETURNS</h3>
+      <!-- ✏️ Update policy as needed -->
+      <p>Doesn't fit right? Send it back. No questions asked.</p>
     </div>
-    <div class="feature reveal-up" data-delay="360">
-      <div class="feature-icon">🧵</div>
-      <h3>Small Batches</h3>
-      <p>Each piece is made in limited runs — thoughtful, never wasteful.</p>
+    <div class="feature reveal-up" data-delay="300">
+      <span class="feat-num">04</span>
+      <h3>LIMITED RUNS</h3>
+      <p>Small batches only. When it's gone, it's gone.</p>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════
        CONTACT
-  ══════════════════════════════════════ -->
+  ══════════════════════════════ -->
   <section class="section contact-section" id="contact">
     <div class="contact-inner">
-      <div class="contact-text">
-        <p class="section-tag reveal-up">Get in Touch</p>
-        <h2 class="reveal-up">We'd love to<br><em>hear from you.</em></h2>
-        <ul class="contact-details reveal-up">
+
+      <div class="contact-left">
+        <p class="section-label reveal-up">GET IN TOUCH</p>
+        <h2 class="reveal-up">LET'S<br><span class="text-red">TALK.</span></h2>
+        <ul class="contact-list reveal-up">
           <li>
-            <span class="contact-label">Email</span>
+            <span class="cl-label">EMAIL</span>
             <!-- ✏️ Replace with real email -->
             <a href="mailto:hello@womboo.com">hello@womboo.com</a>
           </li>
           <li>
-            <span class="contact-label">Instagram</span>
+            <span class="cl-label">INSTAGRAM</span>
             <!-- ✏️ Replace with real handle -->
             <a href="#">@womboo</a>
           </li>
           <li>
-            <span class="contact-label">Location</span>
-            <!-- ✏️ Replace with your city -->
+            <span class="cl-label">LOCATION</span>
+            <!-- ✏️ Add your city -->
             <span>[Your city, Country]</span>
           </li>
           <li>
-            <span class="contact-label">Hours</span>
-            <!-- ✏️ Update support hours -->
-            <span>Mon – Fri, 9am – 6pm</span>
+            <span class="cl-label">SUPPORT</span>
+            <!-- ✏️ Update hours -->
+            <span>Mon – Fri · 9am–6pm</span>
           </li>
         </ul>
       </div>
+
       <form class="contact-form reveal-up" id="contact-form">
-        <div class="form-group">
-          <label for="fname">Name</label>
-          <input type="text" id="fname" placeholder="Your name" required>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">NAME</label>
+            <input type="text" id="fname" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="femail">EMAIL</label>
+            <input type="email" id="femail" placeholder="your@email.com" required>
+          </div>
         </div>
         <div class="form-group">
-          <label for="femail">Email</label>
-          <input type="email" id="femail" placeholder="your@email.com" required>
+          <label for="fmessage">MESSAGE</label>
+          <textarea id="fmessage" rows="5" placeholder="What's on your mind?"></textarea>
         </div>
-        <div class="form-group">
-          <label for="fmessage">Message</label>
-          <textarea id="fmessage" rows="4" placeholder="What's on your mind?"></textarea>
-        </div>
-        <button type="submit" class="btn-primary">Send Message →</button>
-        <p class="form-success" id="form-success">Thanks! We'll be in touch soon 🌿</p>
+        <button type="submit" class="btn-primary">SEND IT →</button>
+        <p class="form-success" id="form-success">MESSAGE SENT. WE'LL HIT YOU BACK.</p>
       </form>
+
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════
        FOOTER
-  ══════════════════════════════════════ -->
+  ══════════════════════════════ -->
   <footer class="footer">
     <div class="footer-top">
+
       <div class="footer-brand">
-        <svg class="logo-svg footer-logo" viewBox="0 0 200 48" fill="none">
-          <text x="0" y="38" class="logo-text footer-logo-text">WOMB</text>
-          <g transform="translate(115,10)">
-            <ellipse cx="12" cy="13" rx="12" ry="13" fill="var(--beige-bg)" stroke="var(--ink)" stroke-width="2.2"/>
-            <circle cx="12" cy="14" r="5.5" fill="var(--ink)"/>
-            <circle cx="14" cy="11" r="1.8" fill="var(--beige-bg)"/>
+        <svg class="footer-logo-svg" viewBox="0 0 210 46" fill="none">
+          <text x="0" y="38" class="footer-logo-text">WOMB</text>
+          <g transform="translate(119,7)">
+            <ellipse cx="13" cy="15" rx="13" ry="15" fill="var(--black)" stroke="var(--off-white)" stroke-width="2"/>
+            <circle cx="13" cy="16" r="6" fill="var(--off-white)"/>
+            <circle cx="15" cy="13" r="2" fill="var(--black)"/>
           </g>
-          <g transform="translate(143,10)">
-            <ellipse cx="12" cy="13" rx="12" ry="13" fill="var(--beige-bg)" stroke="var(--ink)" stroke-width="2.2"/>
-            <circle cx="12" cy="14" r="5.5" fill="var(--ink)"/>
-            <circle cx="14" cy="11" r="1.8" fill="var(--beige-bg)"/>
+          <g transform="translate(150,7)">
+            <ellipse cx="13" cy="15" rx="13" ry="15" fill="var(--black)" stroke="var(--off-white)" stroke-width="2"/>
+            <circle cx="13" cy="16" r="6" fill="var(--off-white)"/>
+            <circle cx="15" cy="13" r="2" fill="var(--black)"/>
           </g>
         </svg>
-        <p>Wear something soft.</p>
+        <p class="footer-tagline">WEAR LOUD. LIVE QUIET.</p>
       </div>
-      <div class="footer-col">
-        <h4>Shop</h4>
-        <a href="#shop">All Products</a>
-        <a href="#shop">New Arrivals</a>
-        <a href="#shop">Tops</a>
-        <a href="#shop">Bottoms</a>
-        <a href="#shop">Outerwear</a>
-      </div>
-      <div class="footer-col">
-        <h4>Info</h4>
-        <a href="#about">About Womboo</a>
-        <a href="#contact">Contact</a>
-        <a href="#">Shipping & Returns</a>
-        <a href="#">Size Guide</a>
-        <a href="#">Sustainability</a>
-      </div>
-      <div class="footer-col">
-        <h4>Follow</h4>
-        <a href="#">Instagram</a>
-        <a href="#">TikTok</a>
-        <a href="#">Pinterest</a>
-        <a href="#">Newsletter</a>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>SHOP</h4>
+          <a href="#shop">All Products</a>
+          <a href="#shop">New Arrivals</a>
+          <a href="#shop">Tops</a>
+          <a href="#shop">Bottoms</a>
+          <a href="#shop">Outerwear</a>
+        </div>
+        <div class="footer-col">
+          <h4>INFO</h4>
+          <a href="#about">About Womboo</a>
+          <a href="#contact">Contact</a>
+          <!-- ✏️ Add real links -->
+          <a href="#">Shipping & Returns</a>
+          <a href="#">Size Guide</a>
+          <a href="#">Sustainability</a>
+        </div>
+        <div class="footer-col">
+          <h4>FOLLOW</h4>
+          <a href="#">Instagram</a>
+          <a href="#">TikTok</a>
+          <a href="#">Pinterest</a>
+          <!-- ✏️ Add real social URLs -->
+          <a href="#">Newsletter</a>
+        </div>
       </div>
     </div>
+
     <div class="footer-bottom">
-      <!-- ✏️ Update year when needed -->
-      <p>© 2025 Womboo. All rights reserved.</p>
-      <p><a href="#">Privacy Policy</a> · <a href="#">Terms</a></p>
+      <!-- ✏️ Update year as needed -->
+      <p>© 2025 WOMBOO. ALL RIGHTS RESERVED.</p>
+      <p><a href="#">PRIVACY</a> &nbsp;·&nbsp; <a href="#">TERMS</a></p>
     </div>
   </footer>
 
