@@ -6,7 +6,1030 @@
   <title>WOMBOO — 90s Archive Drop</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+/* ═══════════════════════════════════════════════════════
+   style.css — WOMBOO
+   Cream · Black · Minimal — inspired by Supreme / Acne
+   ═══════════════════════════════════════════════════════ */
+
+/* ── VARIABLES ──────────────────────────────────────── */
+:root {
+  /* ── Cream + black palette ── */
+  --black:       #0f0f0f;
+  --black-2:     #161616;
+  --black-3:     #1e1e1e;
+  --grey-dark:   #d4cfc8;   /* borders on cream bg */
+  --grey-mid:    #a09a93;   /* mid tone */
+  --grey-light:  #c8c2bb;   /* subtle borders */
+  --concrete:    #7a7470;   /* muted text */
+  --off-white:   #0f0f0f;   /* primary text (inverted — dark on cream) */
+  --white:       #f7f3ee;   /* slightly lighter cream surface */
+  --ticker-bg:   #0f0f0f;   /* ticker strip background */
+  --ticker-text: #f5f0e8;   /* ticker text */
+
+  /* Cream surfaces */
+  --cream:       #f5f0e8;   /* page background */
+  --cream-2:     #ede8df;   /* slightly darker surface */
+  --cream-3:     #e4ddd3;   /* cards, inputs */
+
+  /* No red anywhere except ticker accent defined below */
+  --red:         #0f0f0f;
+  --red-bright:  #0f0f0f;
+  --red-muted:   #0f0f0f;
+
+  --font-display:   'Bebas Neue', sans-serif;
+  --font-condensed: 'Barlow Condensed', sans-serif;
+  --font-body:      'DM Sans', sans-serif;
+
+  --nav-h: 68px;
+  --radius: 2px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow: 0 4px 24px rgba(15,15,15,0.08);
+  --shadow-lg: 0 12px 48px rgba(15,15,15,0.13);
+}
+
+/* ── DARK MODE OVERRIDES ────────────────────────────── */
+body.dark {
+  --black:      #f0ece4;
+  --black-2:    #e8e3db;
+  --black-3:    #ddd8d0;
+  --grey-dark:  #2e2e2e;
+  --grey-mid:   #5a5a5a;
+  --grey-light: #333333;
+  --concrete:   #888480;
+  --off-white:  #f0ece4;
+  --white:      #1a1a1a;
+  --cream:      #0f0f0f;
+  --cream-2:    #161616;
+  --cream-3:    #1e1e1e;
+  --shadow:     0 4px 24px rgba(0,0,0,0.5);
+  --shadow-lg:  0 12px 48px rgba(0,0,0,0.7);
+}
+
+/* Flip logo eye fills in dark mode */
+body.dark .logo-svg .eye ellipse,
+body.dark .footer-logo-svg ellipse { fill: #0f0f0f; stroke: #f0ece4; }
+body.dark .logo-svg .eye circle:nth-child(2),
+body.dark .footer-logo-svg circle:nth-child(2) { fill: #f0ece4; }
+body.dark .logo-svg .eye circle:nth-child(3),
+body.dark .footer-logo-svg circle:nth-child(3) { fill: #0f0f0f; }
+
+/* Flip logo text */
+body.dark .logo-text,
+body.dark .footer-logo-text { fill: #f0ece4; }
+
+/* Header in dark */
+body.dark .header { background: rgba(15,15,15,0.94); }
+
+/* Smooth theme transition — targeted so it doesn't fight
+   button/hover transitions or break animations */
+body, body header, body footer,
+body section, body nav, body aside,
+body .card, body .product-card, body .cart-sidebar,
+body .cart-item, body .feature, body .about-section,
+body .contact-section, body .filter-btn, body .btn-primary,
+body .btn-ghost, body .btn-checkout, body .mobile-menu,
+body .form-group input, body .form-group textarea {
+  transition: background-color 0.45s ease, border-color 0.45s ease,
+              color 0.45s ease !important;
+}
+/* SVG fills + strokes cross-fade too */
+body .logo-text, body .footer-logo-text { transition: fill 0.45s ease; }
+body .eyeball   { transition: fill 0.45s ease, stroke 0.45s ease; }
+body .pupil     { transition: fill 0.45s ease; }
+body .shine     { transition: fill 0.45s ease; }
+
+/* ── THEME TOGGLE BUTTON ────────────────────────────── */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border: 1px solid var(--grey-light);
+  border-radius: 50%;
+  color: var(--black);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.3s !important;
+}
+.theme-toggle:hover {
+  border-color: var(--black);
+  transform: rotate(22deg);
+}
+/* Show moon in light, sun in dark */
+.icon-sun  { display: none; }
+.icon-moon { display: block; }
+body.dark .icon-sun  { display: block; }
+body.dark .icon-moon { display: none; }
+
+/* ── RESET ──────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--black);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a  { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ── GRAIN OVERLAY ──────────────────────────────────── */
+.grain {
+  position: fixed; inset: 0; z-index: 1000;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+}
+
+/* ── TYPOGRAPHY ─────────────────────────────────────── */
+h1, h2 { font-family: var(--font-display); line-height: 1.0; }
+h3      { font-family: var(--font-condensed); font-weight: 600; letter-spacing: 1px; }
+.text-red { color: var(--black); }
+
+/* ── SCROLL REVEAL ──────────────────────────────────── */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-clip {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition: opacity 0.6s ease, clip-path 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-up.in-view   { opacity: 1; transform: translateY(0); }
+.reveal-clip.in-view { opacity: 1; clip-path: inset(0 0 0% 0); }
+
+/* ── BUTTONS ────────────────────────────────────────── */
+.btn-primary {
+  display: inline-block;
+  background: var(--black);
+  color: var(--cream);
+  padding: 14px 32px;
+  font-family: var(--font-condensed);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: var(--radius);
+  transition: background var(--transition), transform var(--transition);
+}
+.btn-primary:hover { background: var(--black-2); transform: translateY(-2px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-block;
+  border: 1.5px solid var(--black);
+  color: var(--black);
+  padding: 13px 30px;
+  font-family: var(--font-condensed);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: var(--radius);
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+.btn-ghost:hover { border-color: var(--black); color: var(--cream); background: var(--black); }
+
+/* ═══════════════════════════════════════════════════════
+   CART SIDEBAR
+═══════════════════════════════════════════════════════ */
+.cart-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,15,15,0.4);
+  z-index: 200;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(3px);
+}
+.cart-overlay.open { opacity: 1; pointer-events: all; }
+
+.cart-sidebar {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(400px, 92vw);
+  background: var(--cream);
+  border-left: 1px solid var(--grey-dark);
+  z-index: 201;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.cart-sidebar.open { transform: translateX(0); }
+
+.cart-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--grey-dark);
+}
+.cart-header-label {
+  font-family: var(--font-condensed);
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: 4px;
+}
+.cart-close {
+  width: 32px; height: 32px;
+  border: 1px solid var(--grey-dark);
+  color: var(--black);
+  font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius);
+  transition: background var(--transition), border-color var(--transition);
+}
+.cart-close:hover { background: var(--cream-3); border-color: var(--black); }
+
+.cart-items {
+  flex: 1; overflow-y: auto; padding: 20px 24px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.cart-empty { text-align: center; padding: 60px 0; color: var(--grey-light); font-size: 0.9rem; letter-spacing: 1px; }
+
+.cart-item {
+  display: grid; grid-template-columns: 64px 1fr auto;
+  gap: 12px; align-items: center;
+  background: var(--cream-2);
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--grey-light);
+  animation: slideInCart 0.25s ease;
+}
+@keyframes slideInCart {
+  from { opacity:0; transform:translateX(16px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+.cart-item-img {
+  width: 64px; height: 80px;
+  background: var(--cream-3);
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.cart-item-img img { width:100%; height:100%; object-fit:cover; }
+.cart-item-info h4 {
+  font-family: var(--font-condensed);
+  font-size: 0.95rem; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.cart-item-price { font-size: 0.82rem; color: var(--concrete); }
+.cart-item-qty {
+  display: flex; align-items: center; gap: 8px; margin-top: 8px;
+}
+.qty-btn {
+  width: 24px; height: 24px; border: 1px solid var(--grey-dark);
+  color: var(--black); font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius);
+  transition: background var(--transition), border-color var(--transition);
+}
+.qty-btn:hover { background: var(--cream-3); }
+.qty-num { font-size: 0.88rem; font-weight: 500; min-width: 18px; text-align: center; }
+.cart-item-remove { color: var(--grey-light); font-size: 0.9rem; align-self: flex-start; transition: color var(--transition); }
+.cart-item-remove:hover { color: var(--red-bright); }
+
+.cart-footer { padding: 18px 24px 26px; border-top: 1px solid var(--grey-dark); }
+.cart-total {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-condensed); font-size: 1.1rem; font-weight: 700;
+  letter-spacing: 2px; margin-bottom: 14px;
+}
+.btn-checkout {
+  display: block; width: 100%;
+  background: var(--black); color: var(--cream);
+  padding: 15px;
+  font-family: var(--font-condensed); font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  border-radius: var(--radius);
+  transition: background var(--transition);
+}
+.btn-checkout:hover { background: var(--black-2); }
+
+/* ═══════════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════════ */
+.header {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.header.scrolled { border-color: var(--grey-light); }
+
+.nav {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  max-width: 1320px; margin: 0 auto;
+  padding: 0 32px;
+  height: var(--nav-h);
+}
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-left  { justify-content: flex-start; }
+.nav-right { justify-content: flex-end; }
+
+.nav-links a {
+  font-family: var(--font-condensed);
+  font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--grey-mid);
+  transition: color var(--transition);
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--red-bright);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover { color: var(--black); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+/* Logo */
+.logo { display: flex; align-items: center; justify-content: center; }
+.logo-svg { height: 38px; width: auto; }
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 32px; fill: var(--black);
+  letter-spacing: 3px;
+}
+
+
+/* ── EYE EXPRESSIONS ────────────────────────────────
+   Light mode = tired/sleepy (droopy lid + eye bags)
+   Dark  mode = wide awake / alert (fully open, bright pupil)
+──────────────────────────────────────────────────── */
+
+/* LIGHT MODE: show droopy lid + bags, hide wide-awake ring */
+.eye-veins      { display: none; }
+.eye-lid        { display: block; }
+.eye-bag        { display: block; }
+.eye-wide-ring  { display: none; }
+
+/* DARK MODE: hide lid + bags, show wide open ring */
+body.dark .eye-veins      { display: none; }
+body.dark .eye-lid        { display: none; }
+body.dark .eye-bag        { display: none; }
+body.dark .eye-wide-ring  { display: block; }
+
+/* LIGHT MODE: eyeball cream bg, dark pupil */
+.eyeball                  { fill: var(--cream); stroke: var(--black); }
+.eye .pupil               { fill: var(--black); }
+.eye .shine               { fill: var(--cream); }
+
+/* DARK MODE: dark eyeball, light/amber pupil so it stays visible */
+body.dark .eyeball        { fill: #0f0f0f; stroke: #f0ece4; }
+body.dark .eye .pupil     { fill: #e8c96e; }  /* warm amber — visible on dark */
+body.dark .eye .shine     { fill: #0f0f0f; }
+
+/* Lid fill always matches page bg so it masks cleanly */
+.eye-lid { fill: var(--cream); }
+
+/* Droopy lid slow sag animation — nodding off */
+.eye-lid {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: lidSag 4.5s ease-in-out infinite;
+}
+.eye:nth-child(3) .eye-lid { animation-delay: 0.3s; }
+@keyframes lidSag {
+  0%, 100% { transform: scaleY(1);    }
+  50%       { transform: scaleY(1.22); }
+}
+
+/* Eye bag gentle fade — half-asleep */
+.eye-bag {
+  animation: bagFade 4.5s ease-in-out infinite;
+}
+@keyframes bagFade {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 0.5;  }
+}
+
+/* Wide-awake ring: extra iris ring pulsing alertly in dark mode */
+.eye-wide-ring {
+  animation: alertPulse 2.5s ease-in-out infinite;
+}
+.eye:nth-child(3) .eye-wide-ring { animation-delay: 0.2s; }
+@keyframes alertPulse {
+  0%, 100% { opacity: 0.5;  transform: scale(1);    }
+  50%       { opacity: 0.9;  transform: scale(1.08); }
+}
+
+/* ── EYE ANIMATIONS ─────────────────────────── */
+/* Pupils are moved by JS mouse tracking */
+/* Smooth glide on the pupil & shine so they follow, not snap */
+.logo-svg .eye circle {
+  transition: transform 0.06s ease-out;
+}
+
+/* Cart button */
+.cart-btn {
+  display: flex; align-items: center; gap: 6px;
+  position: relative; padding: 8px;
+  color: var(--black);
+  transition: color var(--transition);
+}
+.cart-btn:hover { color: var(--concrete); }
+.cart-count {
+  position: absolute; top: 0; right: 0;
+  background: var(--black); color: var(--cream);
+  font-size: 0.6rem; font-weight: 700;
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.cart-count.bump { animation: bump 0.3s ease; }
+@keyframes bump { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
+
+/* Hamburger */
+.hamburger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--black); transition: transform 0.3s, opacity 0.3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile menu */
+.mobile-menu { display: none; flex-direction: column; padding: 0 32px 20px; border-top: 1px solid var(--grey-light); background: var(--cream); }
+.mobile-menu.open { display: flex; }
+.mobile-link {
+  font-family: var(--font-condensed); font-size: 1.4rem;
+  font-weight: 700; letter-spacing: 3px;
+  padding: 14px 0; border-bottom: 1px solid var(--grey-dark);
+  color: var(--grey-mid); transition: color var(--transition);
+}
+.mobile-link:hover { color: var(--black); }
+
+/* ═══════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: calc(var(--nav-h) + 40px) 6% 60px;
+  position: relative; overflow: hidden;
+}
+
+/* Giant ghost type behind hero */
+.hero-bg-type {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.hero-bg-type span {
+  font-family: var(--font-display);
+  font-size: clamp(120px, 20vw, 220px);
+  color: transparent;
+  -webkit-text-stroke: 1px var(--grey-dark);
+  line-height: 0.9;
+  letter-spacing: 8px;
+  opacity: 0.22;
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+  width: 100%; max-width: 1320px; margin: 0 auto;
+}
+
+.hero-season {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--concrete);
+  margin-bottom: 18px; display: block;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 9vw, 10rem);
+  line-height: 0.92;
+  margin-bottom: 28px;
+  display: flex; flex-direction: column;
+}
+.title-line { display: block; overflow: hidden; }
+.title-red { color: var(--black); }
+
+.hero-sub {
+  font-size: 0.92rem;
+  color: var(--grey-mid);
+  line-height: 1.8; margin-bottom: 36px;
+  max-width: 360px;
+}
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Hero image */
+.hero-img-block {
+  position: relative;
+}
+.hero-img-frame {
+  aspect-ratio: 3/4;
+  background: var(--cream-2);
+  border: 1px solid var(--grey-light);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+.img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px; color: var(--grey-mid); font-size: 0.8rem;
+  font-family: var(--font-condensed); letter-spacing: 2px;
+  text-transform: uppercase;
+}
+/* Scan line effect on placeholder */
+.hero-img-frame::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px
+  );
+  pointer-events: none;
+}
+
+/* floating label */
+.hero-label {
+  position: absolute; bottom: -14px; left: -14px;
+  background: var(--black);
+  padding: 12px 16px;
+  display: flex; flex-direction: column;
+  font-family: var(--font-condensed);
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  line-height: 1.4;
+}
+/* red corner accent */
+.hero-corner {
+  position: absolute; top: -1px; right: -1px;
+  width: 40px; height: 40px;
+  border-top: 2px solid var(--black);
+  border-right: 2px solid var(--black);
+}
+
+/* Scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 32px; left: 6%;
+  display: flex; align-items: center; gap: 14px;
+  z-index: 2;
+  font-family: var(--font-condensed);
+  font-size: 0.65rem; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--grey-light);
+}
+.scroll-bar {
+  width: 48px; height: 1px;
+  background: var(--grey-mid);
+  position: relative; overflow: hidden;
+}
+.scroll-bar::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--red-bright);
+  transform: translateX(-100%);
+  animation: scanBar 2s ease-in-out infinite;
+}
+@keyframes scanBar {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   TICKER
+═══════════════════════════════════════════════════════ */
+.ticker-wrap {
+  overflow: hidden;
+  background: var(--black);
+  padding: 11px 0;
+}
+.ticker-track {
+  display: flex; gap: 24px; align-items: center;
+  width: max-content;
+  animation: marquee 16s linear infinite;
+}
+.ticker-track span {
+  font-family: var(--font-condensed);
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  white-space: nowrap; color: #f5f0e8;
+}
+.ticker-track .sep { color: #b8966e; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SHARED SECTION STYLES
+═══════════════════════════════════════════════════════ */
+.section {
+  padding: 100px 6%;
+  max-width: 1320px; margin: 0 auto;
+}
+.section-label {
+  font-family: var(--font-condensed);
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--concrete); margin-bottom: 8px;
+  display: block;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  color: var(--off-white);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SHOP HEADER + FILTER TABS
+═══════════════════════════════════════════════════════ */
+.shop-header {
+  display: flex; justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 48px; flex-wrap: wrap; gap: 20px;
+}
+.filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--grey-light);
+  background: transparent;
+  color: var(--grey-mid);
+  font-family: var(--font-condensed);
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+.filter-btn:hover { border-color: var(--black); color: var(--black); }
+.filter-btn.active { background: var(--black); color: var(--cream); border-color: var(--black); }
+
+/* ═══════════════════════════════════════════════════════
+   PRODUCT GRID
+═══════════════════════════════════════════════════════ */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1px; /* tight editorial grid */
+}
+
+/* ── PRODUCT CARD ────────────────────────────────── */
+.product-card {
+  background: var(--cream);
+  border: 1px solid var(--grey-light);
+  cursor: pointer;
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.25s;
+  position: relative;
+}
+.product-card.in-view  { opacity: 1; transform: translateY(0); }
+.product-card:hover    { border-color: var(--black); z-index: 2; }
+
+.product-img-wrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  background: var(--cream-2);
+  overflow: hidden;
+}
+.product-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s ease;
+  filter: saturate(0.7); /* washed-out archive feel */
+}
+.product-card:hover .product-img-wrap img { transform: scale(1.04); filter: saturate(1); }
+
+.product-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; color: var(--grey-mid);
+  font-family: var(--font-condensed);
+  font-size: 0.72rem; letter-spacing: 2px;
+  text-transform: uppercase;
+}
+/* scanlines on product placeholder */
+.product-img-wrap::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 3px,
+    rgba(0,0,0,0.18) 3px, rgba(0,0,0,0.18) 4px
+  );
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.product-card:hover .product-img-wrap::after { opacity: 0.2; }
+
+/* badges */
+.product-badge {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--black); color: var(--cream);
+  font-family: var(--font-condensed); font-size: 0.62rem;
+  font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  padding: 4px 8px; border-radius: var(--radius);
+}
+.product-badge.tag-sale { background: var(--concrete); color: var(--cream); }
+.product-badge.tag-new  { background: transparent; border: 1px solid var(--black); color: var(--black); }
+
+/* quick add — slides up on hover */
+.product-quick-add {
+  position: absolute; bottom: 12px; left: 12px; right: 12px;
+  background: var(--cream); color: var(--black); border: 1px solid var(--black);
+  padding: 10px;
+  font-family: var(--font-condensed); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  text-align: center; border-radius: var(--radius);
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.22s, transform 0.22s, background var(--transition), color var(--transition);
+}
+.product-card:hover .product-quick-add { opacity: 1; transform: translateY(0); }
+.product-quick-add:hover { background: var(--black); color: var(--cream); }
+
+.product-info {
+  padding: 14px 16px 18px;
+  border-top: 1px solid var(--grey-light);
+}
+.product-info-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 4px;
+}
+.product-name {
+  font-family: var(--font-condensed);
+  font-size: 0.95rem; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--black);
+}
+.product-price { font-size: 0.9rem; font-weight: 500; color: var(--black); white-space: nowrap; }
+.product-price .original { text-decoration: line-through; color: var(--grey-light); font-size: 0.78rem; margin-right: 4px; }
+.product-cat {
+  font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--grey-light); margin-bottom: 10px;
+}
+.product-colors { display: flex; gap: 5px; }
+.color-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer; transition: transform 0.18s;
+}
+.color-dot:hover { transform: scale(1.35); }
+
+/* ═══════════════════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════════════════ */
+.about-section {
+  padding: 100px 6%;
+  background: var(--cream-2);
+  border-top: 1px solid var(--grey-light);
+  border-bottom: 1px solid var(--grey-light);
+  position: relative; overflow: hidden;
+}
+/* giant number watermark */
+.about-number {
+  position: absolute; right: -2%;  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: clamp(180px, 22vw, 300px);
+  color: transparent;
+  -webkit-text-stroke: 1px var(--grey-dark);
+  pointer-events: none; line-height: 1;
+  opacity: 0.5; letter-spacing: -10px;
+}
+
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: start;
+  max-width: 1320px; margin: 0 auto;
+  position: relative; z-index: 1;
+}
+.about-img-frame {
+  aspect-ratio: 4/5;
+  background: var(--cream-3);
+  border: 1px solid var(--grey-light);
+  overflow: hidden; position: relative;
+}
+.about-img-tag {
+  margin-top: 14px;
+  font-family: var(--font-condensed);
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 4px; color: var(--grey-light);
+  text-transform: uppercase;
+}
+.about-text-col { padding-top: 10px; }
+.about-text-col h2 {
+  font-size: clamp(2.8rem, 5vw, 5.5rem);
+  margin: 10px 0 24px;
+}
+.about-text-col p {
+  color: var(--grey-mid); line-height: 1.8;
+  margin-bottom: 16px; font-size: 0.92rem;
+}
+.about-text-col .muted { color: var(--concrete); font-style: italic; font-size: 0.85rem; }
+
+.about-stats {
+  display: flex; gap: 32px; margin: 36px 0 36px;
+  border-top: 1px solid var(--grey-light);
+  border-bottom: 1px solid var(--grey-light);
+  padding: 24px 0;
+}
+.astat { display: flex; flex-direction: column; gap: 4px; }
+.astat-n {
+  font-family: var(--font-display);
+  font-size: 2.2rem; color: var(--off-white);
+  line-height: 1;
+}
+.astat-l {
+  font-family: var(--font-condensed);
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--grey-light);
+}
+
+/* ═══════════════════════════════════════════════════════
+   FEATURES ROW
+═══════════════════════════════════════════════════════ */
+.features-row {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border-top: 1px solid var(--grey-light);
+}
+.feature {
+  padding: 44px 32px;
+  border-right: 1px solid var(--grey-light);
+  transition: background var(--transition);
+  position: relative;
+}
+.feature:last-child { border-right: none; }
+.feature:hover { background: var(--cream-2); }
+.feat-num {
+  display: block;
+  font-family: var(--font-condensed);
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 3px; color: var(--concrete);
+  margin-bottom: 12px;
+}
+.feature h3 {
+  font-size: 0.95rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--black);
+  margin-bottom: 10px;
+}
+.feature p { font-size: 0.83rem; color: var(--grey-light); line-height: 1.65; }
+
+/* ═══════════════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════════════ */
+.contact-section { border-top: 1px solid var(--grey-light); }
+.contact-inner {
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  gap: 80px; align-items: start;
+}
+.contact-left h2 { font-size: clamp(2.5rem, 5vw, 5rem); margin: 10px 0 32px; }
+
+.contact-list { display: flex; flex-direction: column; gap: 18px; }
+.contact-list li { display: flex; align-items: baseline; gap: 16px; }
+.cl-label {
+  font-family: var(--font-condensed); font-size: 0.65rem;
+  font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--concrete);
+  min-width: 90px;
+}
+.contact-list a, .contact-list span {
+  font-size: 0.9rem; color: var(--concrete);
+  transition: color var(--transition);
+}
+.contact-list a:hover { color: var(--off-white); }
+
+/* Form */
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label {
+  font-family: var(--font-condensed); font-size: 0.68rem;
+  font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--concrete);
+}
+.form-group input, .form-group textarea {
+  padding: 13px 16px;
+  background: var(--cream-2);
+  border: 1px solid var(--grey-light);
+  border-radius: var(--radius);
+  color: var(--black);
+  font-family: var(--font-body); font-size: 0.9rem;
+  outline: none; resize: vertical;
+  transition: border-color var(--transition);
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--black); }
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--concrete); }
+.form-success {
+  display: none; font-family: var(--font-condensed);
+  font-size: 0.8rem; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--concrete);
+  padding: 8px 0;
+}
+.form-success.show { display: block; }
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════ */
+.footer {
+  background: var(--cream-2);
+  border-top: 1px solid var(--grey-light);
+  margin-top: 0;
+}
+.footer-top {
+  display: grid; grid-template-columns: 1.5fr 1fr;
+  gap: 60px; padding: 72px 6% 52px;
+  max-width: 1320px; margin: 0 auto;
+  border-bottom: 1px solid var(--grey-light);
+}
+.footer-brand { display: flex; flex-direction: column; gap: 14px; }
+.footer-logo-svg { height: 34px; }
+.footer-logo-text {
+  font-family: var(--font-display);
+  font-size: 28px; fill: var(--black); letter-spacing: 3px;
+}
+.footer-tagline {
+  font-family: var(--font-condensed); font-size: 0.7rem;
+  font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--grey-light);
+}
+.footer-links { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+.footer-col { display: flex; flex-direction: column; gap: 10px; }
+.footer-col h4 {
+  font-family: var(--font-condensed); font-size: 0.7rem;
+  font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--black);
+  margin-bottom: 4px;
+}
+.footer-col a {
+  font-size: 0.85rem; color: var(--grey-light);
+  transition: color var(--transition);
+}
+.footer-col a:hover { color: var(--off-white); }
+
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 6%; max-width: 1320px; margin: 0 auto;
+  font-family: var(--font-condensed); font-size: 0.7rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--concrete);
+}
+.footer-bottom a { color: var(--concrete); transition: color var(--transition); }
+.footer-bottom a:hover { color: var(--black); }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .features-row { grid-template-columns: repeat(2,1fr); }
+  .feature:nth-child(2)  { border-right: none; }
+  .feature:nth-child(3)  { border-top: 1px solid var(--grey-dark); }
+  .feature:nth-child(4)  { border-top: 1px solid var(--grey-light); border-right: none; }
+  .footer-top { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  :root { --nav-h: 60px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+  .hero-img-block { order: -1; max-width: 320px; margin: 0 auto; }
+  .hero-label { left: 50%; transform: translateX(-50%); }
+  .hero-ctas { justify-content: center; }
+  .hero-sub { margin: 0 auto 32px; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-links { grid-template-columns: repeat(2,1fr); }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .section { padding: 72px 5%; }
+}
+
+@media (max-width: 480px) {
+  .features-row { grid-template-columns: 1fr; }
+  .feature { border-right: none; border-bottom: 1px solid var(--grey-dark); }
+  .product-grid { grid-template-columns: repeat(2,1fr); gap: 1px; }
+  .footer-links { grid-template-columns: 1fr; }
+}
+
+</style>
 </head>
 <body>
 
@@ -45,27 +1068,59 @@
         <li><a href="#about">ABOUT</a></li>
       </ul>
 
-      <!-- LOGO: WOMB + two eye O's -->
+      <!-- LOGO: WOMB + two expressive eye O's -->
       <a href="#" class="logo" aria-label="Womboo">
         <svg class="logo-svg" viewBox="0 0 152 46" fill="none" xmlns="http://www.w3.org/2000/svg">
           <text x="0" y="38" class="logo-text">WOMB</text>
-          <!-- Eye 1 -->
+
+          <!-- EYE 1 -->
           <g class="eye" transform="translate(76,16)">
-            <ellipse cx="10" cy="11" rx="10" ry="11" fill="var(--cream)" stroke="var(--black)" stroke-width="1.8"/>
-            <circle cx="10" cy="12" r="4.5" fill="var(--black)"/>
-            <circle cx="12" cy="9.5" r="1.5" fill="var(--cream)"/>
+            <ellipse class="eyeball" cx="10" cy="11" rx="10" ry="11" fill="var(--cream)" stroke="var(--black)" stroke-width="1.8"/>
+            <!-- dark mode: outer alert ring -->
+            <circle class="eye-wide-ring" cx="10" cy="11" r="7.5" fill="none" stroke="#e8c96e" stroke-width="1" opacity="0.6"/>
+            <!-- pupil + shine — classes let CSS recolour them per mode -->
+            <circle class="pupil" cx="10" cy="12" r="4.5" fill="var(--black)"/>
+            <circle class="shine" cx="12" cy="9.5" r="1.5" fill="var(--cream)"/>
+            <!-- light mode: droopy lid covering top of eye -->
+            <path class="eye-lid" d="M0 8 Q10 3 20 8 L20 12 Q10 8 0 12 Z" fill="var(--cream)" stroke="var(--black)" stroke-width="1.3"/>
+            <!-- light mode: eye bag under eye -->
+            <path class="eye-bag" d="M3 20 Q10 23 17 20" stroke="var(--black)" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.35"/>
           </g>
-          <!-- Eye 2 -->
+
+          <!-- EYE 2 -->
           <g class="eye" transform="translate(99,16)">
-            <ellipse cx="10" cy="11" rx="10" ry="11" fill="var(--cream)" stroke="var(--black)" stroke-width="1.8"/>
-            <circle cx="10" cy="12" r="4.5" fill="var(--black)"/>
-            <circle cx="12" cy="9.5" r="1.5" fill="var(--cream)"/>
+            <ellipse class="eyeball" cx="10" cy="11" rx="10" ry="11" fill="var(--cream)" stroke="var(--black)" stroke-width="1.8"/>
+            <circle class="eye-wide-ring" cx="10" cy="11" r="7.5" fill="none" stroke="#e8c96e" stroke-width="1" opacity="0.6"/>
+            <circle class="pupil" cx="10" cy="12" r="4.5" fill="var(--black)"/>
+            <circle class="shine" cx="12" cy="9.5" r="1.5" fill="var(--cream)"/>
+            <path class="eye-lid" d="M0 8 Q10 3 20 8 L20 12 Q10 8 0 12 Z" fill="var(--cream)" stroke="var(--black)" stroke-width="1.3"/>
+            <path class="eye-bag" d="M3 20 Q10 23 17 20" stroke="var(--black)" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.35"/>
           </g>
         </svg>
       </a>
 
       <ul class="nav-links nav-right">
         <li><a href="#contact">CONTACT</a></li>
+        <li>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+            <!-- Sun icon (shown in dark mode) -->
+            <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1"  x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22"  x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1"  y1="12" x2="3"  y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <!-- Moon icon (shown in light mode) -->
+            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            </svg>
+          </button>
+        </li>
         <li>
           <button class="cart-btn" id="cart-btn" aria-label="Cart">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
@@ -394,6 +1449,583 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+// ══════════════════════════════════════════════════════
+//  script.js — WOMBOO Streetwear Ecommerce
+//  Black · Concrete Grey · Blood Red · 90s Archive
+// ══════════════════════════════════════════════════════
+
+
+// ── 1. PRODUCT DATA ────────────────────────────────
+// ✏️ Edit names, prices, categories, colours here.
+// Add product images: set  image: 'images/filename.jpg'
+
+const products = [
+  {
+    id: 1,
+    name: 'Archive Crewneck',
+    category: 'tops',
+    price: 98,
+    badge: 'new',
+    colors: ['#e8e4dc', '#0a0a0a', '#9b1c1c'],
+    image: null, // ✏️ → 'images/archive-crewneck.jpg'
+    description: '400gsm heavyweight crewneck. Oversized fit. Stone-washed.'
+  },
+  {
+    id: 2,
+    name: 'Washed Box Tee',
+    category: 'tops',
+    price: 55,
+    badge: null,
+    colors: ['#3d3d3d', '#e8e4dc'],
+    image: null,
+    description: 'Box-cut tee in garment-washed 220gsm cotton.'
+  },
+  {
+    id: 3,
+    name: 'Utility Cargo Pant',
+    category: 'bottoms',
+    price: 130,
+    badge: 'new',
+    colors: ['#242424', '#6b6b6b', '#8a8a8a'],
+    image: null,
+    description: 'Relaxed cargo in heavyweight ripstop. Six pockets.'
+  },
+  {
+    id: 4,
+    name: 'Womboo Track Pant',
+    category: 'bottoms',
+    price: 110,
+    badge: null,
+    colors: ['#0a0a0a', '#9b1c1c'],
+    image: null,
+    description: 'French terry trackpant. Womboo eyes embroidered at left hip.'
+  },
+  {
+    id: 5,
+    name: 'Field Jacket',
+    category: 'outerwear',
+    price: 220,
+    badge: 'new',
+    colors: ['#3d3d3d', '#242424'],
+    image: null,
+    description: 'Four-pocket field jacket in waxed cotton canvas.'
+  },
+  {
+    id: 6,
+    name: 'Oversized Coach',
+    category: 'outerwear',
+    price: 185,
+    badge: null,
+    colors: ['#0a0a0a', '#e8e4dc', '#9b1c1c'],
+    image: null,
+    description: 'Coach jacket in nylon ripstop. Dropped shoulders. Boxy.'
+  },
+  {
+    id: 7,
+    name: 'Archive Short',
+    category: 'bottoms',
+    price: 75,
+    badge: 'sale',
+    originalPrice: 95,
+    colors: ['#8a8a8a', '#0a0a0a'],
+    image: null,
+    description: 'Heavyweight 8" inseam short. Garment-dyed concrete grey.'
+  },
+  {
+    id: 8,
+    name: 'Logo Longsleeve',
+    category: 'tops',
+    price: 68,
+    badge: null,
+    colors: ['#242424', '#e8e4dc'],
+    image: null,
+    description: 'Heavyweight longsleeve. Womboo eyes screenprint chest-hit.'
+  },
+  {
+    id: 9,
+    name: 'Womboo Cap',
+    category: 'accessories',
+    price: 45,
+    badge: null,
+    colors: ['#0a0a0a', '#e8e4dc'],
+    image: null,
+    description: 'Six-panel structured cap. Womboo eyes embroidered at front.'
+  },
+  {
+    id: 10,
+    name: 'Archive Tote',
+    category: 'accessories',
+    price: 38,
+    badge: null,
+    colors: ['#e8e4dc', '#0a0a0a'],
+    image: null,
+    description: '16oz canvas tote. Drop handle. Womboo logo screenprint.'
+  },
+  {
+    id: 11,
+    name: 'Quilted Work Jacket',
+    category: 'outerwear',
+    price: 250,
+    badge: 'new',
+    colors: ['#1a1a1a', '#3d3d3d'],
+    image: null,
+    description: 'Quilted work jacket in washed poly-fill. Barn collar.'
+  },
+  {
+    id: 12,
+    name: 'Chain Wallet',
+    category: 'accessories',
+    price: 55,
+    badge: null,
+    colors: ['#8a8a8a', '#0a0a0a'],
+    image: null,
+    description: 'Full-grain leather bifold with stainless chain. Womboo stamp.'
+  }
+];
+
+
+// ── 2. CART STATE ──────────────────────────────────
+let cart = [];
+
+function getCartItem(id) {
+  return cart.find(item => item.product.id === id);
+}
+
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+
+  const existing = getCartItem(id);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ product, qty: 1 });
+  }
+
+  renderCart();
+  openCart();
+  bumpCount();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.product.id !== id);
+  renderCart();
+}
+
+function changeQty(id, delta) {
+  const item = getCartItem(id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else renderCart();
+}
+
+function cartTotal() {
+  return cart.reduce((sum, i) => sum + i.product.price * i.qty, 0);
+}
+
+function cartCount() {
+  return cart.reduce((sum, i) => sum + i.qty, 0);
+}
+
+
+// ── 3. RENDER CART ─────────────────────────────────
+function renderCart() {
+  const container = document.getElementById('cart-items');
+  const totalEl   = document.getElementById('cart-total-price');
+  const countEl   = document.getElementById('cart-count');
+
+  countEl.textContent = cartCount();
+  totalEl.textContent = '$' + cartTotal().toFixed(2);
+
+  if (cart.length === 0) {
+    container.innerHTML = '<p class="cart-empty">Your bag is empty.</p>';
+    return;
+  }
+
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item" data-id="${item.product.id}">
+      <div class="cart-item-img">
+        ${item.product.image
+          ? `<img src="${item.product.image}" alt="${item.product.name}">`
+          : `<svg width="24" height="24" viewBox="0 0 64 64" fill="none" stroke="#3d3d3d" stroke-width="1.5">
+               <rect x="8" y="8" width="48" height="48" rx="2"/>
+               <circle cx="32" cy="28" r="10"/>
+               <path d="M16 56 Q32 42 48 56"/>
+             </svg>`
+        }
+      </div>
+      <div class="cart-item-info">
+        <h4>${item.product.name}</h4>
+        <span class="cart-item-price">$${item.product.price.toFixed(2)}</span>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${item.product.id}, -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.product.id}, +1)">+</button>
+        </div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${item.product.id})">✕</button>
+    </div>
+  `).join('');
+}
+
+
+// ── 4. CART OPEN / CLOSE ───────────────────────────
+function openCart() {
+  document.getElementById('cart-sidebar').classList.add('open');
+  document.getElementById('cart-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cart-sidebar').classList.remove('open');
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function bumpCount() {
+  const el = document.getElementById('cart-count');
+  el.classList.remove('bump');
+  void el.offsetWidth;
+  el.classList.add('bump');
+}
+
+document.getElementById('cart-btn').addEventListener('click', openCart);
+document.getElementById('cart-close').addEventListener('click', closeCart);
+document.getElementById('cart-overlay').addEventListener('click', closeCart);
+
+
+// ── 5. RENDER PRODUCT GRID ─────────────────────────
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('product-grid');
+  const list = filter === 'all'
+    ? products
+    : products.filter(p => p.category === filter);
+
+  grid.innerHTML = list.map((p, i) => `
+    <div class="product-card" data-id="${p.id}" style="transition-delay:${(i % 4) * 60}ms">
+      <div class="product-img-wrap">
+
+        ${p.image
+          ? `<img src="${p.image}" alt="${p.name}" loading="lazy">`
+          : `<div class="product-img-placeholder">
+               <svg width="36" height="36" viewBox="0 0 64 64" fill="none" stroke="#3d3d3d" stroke-width="1.5">
+                 <rect x="8" y="8" width="48" height="48" rx="2"/>
+                 <circle cx="32" cy="28" r="10"/>
+                 <path d="M16 56 Q32 42 48 56"/>
+               </svg>
+               <span>Add photo</span>
+             </div>`
+        }
+
+        ${p.badge ? `<span class="product-badge tag-${p.badge}">${p.badge.toUpperCase()}</span>` : ''}
+
+        <button class="product-quick-add" onclick="addToCart(${p.id})">
+          + ADD TO BAG
+        </button>
+      </div>
+
+      <div class="product-info">
+        <div class="product-info-row">
+          <span class="product-name">${p.name}</span>
+          <span class="product-price">
+            ${p.originalPrice ? `<span class="original">$${p.originalPrice}</span>` : ''}
+            $${p.price}
+          </span>
+        </div>
+        <div class="product-cat">${p.category.toUpperCase()}</div>
+        <div class="product-colors">
+          ${p.colors.map(c =>
+            `<span class="color-dot" style="background:${c}" title="${c}"></span>`
+          ).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  observeCards();
+}
+
+
+// ── 6. FILTER TABS ─────────────────────────────────
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const grid = document.getElementById('product-grid');
+    grid.style.transition = 'opacity 0.2s, transform 0.2s';
+    grid.style.opacity = '0';
+    grid.style.transform = 'translateY(8px)';
+
+    setTimeout(() => {
+      renderProducts(btn.dataset.filter);
+      grid.style.opacity = '1';
+      grid.style.transform = 'translateY(0)';
+    }, 200);
+  });
+});
+
+
+// ── 7. INTERSECTION OBSERVER (scroll reveal) ───────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el    = entry.target;
+    const delay = parseInt(el.dataset.delay || 0);
+    setTimeout(() => el.classList.add('in-view'), delay);
+    observer.unobserve(el);
+  });
+}, { threshold: 0.12 });
+
+function observeAll() {
+  document.querySelectorAll('.reveal-up, .reveal-clip').forEach(el => observer.observe(el));
+}
+
+function observeCards() {
+  document.querySelectorAll('.product-card').forEach(el => observer.observe(el));
+}
+
+
+// ── 8. HERO TITLE ANIMATION ────────────────────────
+// Staggered clip-path reveal on each title line at load.
+function animateHero() {
+  document.querySelectorAll('.hero-title .title-line').forEach(line => {
+    const delay = parseInt(line.dataset.delay || 0);
+    line.style.opacity = '0';
+    line.style.clipPath = 'inset(0 0 100% 0)';
+    line.style.transition = `opacity 0.6s ease ${delay}ms, clip-path 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      line.style.opacity = '1';
+      line.style.clipPath = 'inset(0 0 0% 0)';
+    }));
+  });
+}
+
+
+// ── 9. STICKY HEADER ──────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+
+// ── 10. MOBILE HAMBURGER ──────────────────────────
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+
+// ── 11. CONTACT FORM ──────────────────────────────
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  // ✏️ Swap in Formspree / EmailJS here when ready
+  const msg = document.getElementById('form-success');
+  msg.classList.add('show');
+  this.reset();
+  setTimeout(() => msg.classList.remove('show'), 4000);
+});
+
+
+// ── 12. SMOOTH SCROLL (offset for fixed nav) ──────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - navH, behavior: 'smooth' });
+  });
+});
+
+
+// ── 13. HERO PARALLAX ─────────────────────────────
+// The giant ghost type in the hero background moves
+// slightly slower than the page — classic parallax.
+window.addEventListener('scroll', () => {
+  const bgType = document.querySelector('.hero-bg-type');
+  if (bgType) bgType.style.transform = `translate(-50%, calc(-50% + ${window.scrollY * 0.2}px))`;
+}, { passive: true });
+
+
+// ── INIT ──────────────────────────────────────────
+renderProducts();
+renderCart();
+animateHero();
+observeAll();
+
+
+// ── 14. LOGO EYE MOUSE TRACKING ───────────────────
+// Pupils follow the mouse cursor.
+// Calculates angle from each eye center to the mouse,
+// moves the pupil in that direction, clamped inside the eyeball.
+
+function setupEyeTracking() {
+  const logo = document.querySelector('.logo-svg');
+  if (!logo) return;
+
+  const eyes = logo.querySelectorAll('.eye');
+
+  window.addEventListener('mousemove', (e) => {
+    eyes.forEach(eye => {
+      const ellipse = eye.querySelector('ellipse');
+      const pupil = eye.querySelector('.pupil');
+      const shine = eye.querySelector('.shine');
+      if (!ellipse || !pupil) return;
+
+      const rect = ellipse.getBoundingClientRect();
+      const eyeX = rect.left + rect.width  / 2;
+      const eyeY = rect.top  + rect.height / 2;
+
+      const dx    = e.clientX - eyeX;
+      const dy    = e.clientY - eyeY;
+      const angle = Math.atan2(dy, dx);
+
+      // Max travel in SVG px — keep pupil inside ellipse
+      const maxTravel = 2.8;
+      const dist      = Math.min(Math.hypot(dx, dy) / (rect.width * 1.2), 1) * maxTravel;
+
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist;
+
+      pupil.style.transform = `translate(${tx}px, ${ty}px)`;
+      if (shine) shine.style.transform = `translate(${tx}px, ${ty}px)`;
+    });
+  });
+
+  // Reset on mouse leave
+  document.addEventListener('mouseleave', () => {
+    if (!logo) return;
+    logo.querySelectorAll('.eye circle').forEach(c => {
+      c.style.transform = 'translate(0px, 0px)';
+    });
+  });
+}
+
+setupEyeTracking();
+
+
+// ── 15. DARK / LIGHT MODE TOGGLE ──────────────────
+// Toggles body.dark class, saves preference to localStorage
+// so it persists across page refreshes.
+
+function setupThemeToggle() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+
+  // Apply saved preference on load
+  if (localStorage.getItem('womboo-theme') === 'dark') {
+    document.body.classList.add('dark');
+  }
+
+  btn.addEventListener('click', () => {
+    // ── Eye transition on mode switch ──────────────────
+    // 1. Eyes squeeze fully shut (scaleY → 0)
+    // 2. Theme flips while eyes are closed
+    // 3. Eyes slowly open wide in the new mode
+    blinkTransition(() => {
+      const isDark = document.body.classList.toggle('dark');
+      localStorage.setItem('womboo-theme', isDark ? 'dark' : 'light');
+    });
+
+    // Rotate the toggle button icon
+    btn.style.transition = 'transform 0.4s ease';
+    btn.style.transform  = 'rotate(180deg)';
+    setTimeout(() => { btn.style.transform = ''; }, 400);
+  });
+}
+
+// Full theme transition sequence:
+// 1. Eyes snap shut
+// 2. Page fades to a neutral mid-tone overlay (hides the colour swap)
+// 3. Theme class flips while overlay is opaque
+// 4. Overlay fades out revealing new palette
+// 5. Eyes spring open in new mode
+function blinkTransition(onClosed) {
+  const logo = document.querySelector('.logo-svg');
+  if (!logo) { onClosed(); return; }
+
+  const eyes    = logo.querySelectorAll('.eye');
+  const closeMs = 150;
+  const fadeMs  = 280;  // overlay fade in
+  const holdMs  = 80;   // hold at peak opacity
+  const openMs  = 550;
+
+  // ── Create a full-page overlay that fades in/out ──
+  let overlay = document.getElementById('theme-transition-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'theme-transition-overlay';
+    overlay.style.cssText = `
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none; opacity: 0;
+      transition: opacity ${fadeMs}ms ease;
+    `;
+    document.body.appendChild(overlay);
+  }
+
+  // Pick overlay colour: neutral mid-grey works for both directions
+  overlay.style.background = '#888480';
+
+  // ── Step 1: close eyes + fade overlay in simultaneously ──
+  eyes.forEach(eye => {
+    eye.querySelectorAll('ellipse, circle, path').forEach(el => {
+      el.style.transformBox    = 'fill-box';
+      el.style.transformOrigin = 'center';
+      el.style.transition      = `transform ${closeMs}ms cubic-bezier(0.55,0,1,0.8)`;
+      el.style.transform       = 'scaleY(0.03)';
+    });
+  });
+
+  // Start fading the overlay in right away
+  requestAnimationFrame(() => {
+    overlay.style.opacity = '0.55';
+  });
+
+  // ── Step 2: flip theme when overlay is near-peak ──
+  setTimeout(() => {
+    onClosed();
+
+    // ── Step 3: fade overlay back out ──
+    setTimeout(() => {
+      overlay.style.transition = `opacity ${fadeMs * 1.4}ms ease`;
+      overlay.style.opacity    = '0';
+    }, holdMs);
+
+    // ── Step 4: open eyes with a spring ──
+    eyes.forEach(eye => {
+      eye.querySelectorAll('ellipse, circle, path').forEach(el => {
+        el.style.transition = `transform ${openMs}ms cubic-bezier(0.18,1.35,0.4,1)`;
+        el.style.transform  = 'scaleY(1)';
+      });
+    });
+
+    // ── Step 5: clean up ──
+    setTimeout(() => {
+      eyes.forEach(eye => {
+        eye.querySelectorAll('ellipse, circle, path').forEach(el => {
+          el.style.transition = el.style.transform =
+          el.style.transformBox = el.style.transformOrigin = '';
+        });
+      });
+    }, openMs + 60);
+
+  }, fadeMs * 0.65);
+}
+
+setupThemeToggle();
+
+</script>
 </body>
 </html>
