@@ -3,328 +3,232 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Animated Site</title>
-  <style>
+  <title>My Notebook</title>
 
-    /* ── RESET & BASE ─────────────────────────────── */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  <!-- Google Fonts: handwritten feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
 
-    body {
-      background: #000;
-      color: #fff;
-      font-family: 'Courier New', monospace;
-      overflow-x: hidden;
-    }
-
-    /* ── HERO SECTION ─────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
-      border-bottom: 2px solid #fff;
-      position: relative;
-    }
-
-    /* Stickman SVG drawing */
-    .stickman {
-      width: 120px;
-      height: 160px;
-      margin-bottom: 30px;
-      animation: bob 2s ease-in-out infinite;
-    }
-
-    @keyframes bob {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-12px); }
-    }
-
-    /* ── ANIMATION 1: TYPEWRITER ──────────────────── */
-    .typewriter {
-      font-size: clamp(2rem, 6vw, 4.5rem);
-      font-weight: bold;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 4px solid #fff;
-      width: 0;
-      animation:
-        typing 2.5s steps(14, end) 0.3s forwards,
-        blink  0.8s step-end infinite;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to   { width: 14ch; } /* matches "HELLO, WORLD!" */
-    }
-    @keyframes blink {
-      0%, 100% { border-color: #fff; }
-      50%       { border-color: transparent; }
-    }
-
-    .subtitle {
-      margin-top: 16px;
-      font-size: 1rem;
-      letter-spacing: 6px;
-      opacity: 0;
-      animation: fadeUp 1s ease 3s forwards;
-    }
-
-    /* ── ANIMATION 2: SLIDE-IN FROM LEFT ─────────── */
-    .section {
-      padding: 80px 10%;
-      border-bottom: 1px solid #333;
-    }
-
-    .section-label {
-      font-size: 0.7rem;
-      letter-spacing: 8px;
-      text-transform: uppercase;
-      color: #888;
-      margin-bottom: 16px;
-    }
-
-    .slide-in {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-weight: bold;
-      overflow: hidden;
-    }
-
-    .slide-in span {
-      display: inline-block;
-      transform: translateX(-120%);
-      animation: slideRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    /* stagger each word */
-    .slide-in span:nth-child(1) { animation-delay: 0.1s; }
-    .slide-in span:nth-child(2) { animation-delay: 0.25s; }
-    .slide-in span:nth-child(3) { animation-delay: 0.4s; }
-    .slide-in span:nth-child(4) { animation-delay: 0.55s; }
-    .slide-in span:nth-child(5) { animation-delay: 0.7s; }
-
-    @keyframes slideRight {
-      to { transform: translateX(0); }
-    }
-
-    /* ── ANIMATION 3: FADE UP CARDS ──────────────── */
-    .cards {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
-
-    .card {
-      flex: 1 1 200px;
-      border: 1px solid #fff;
-      padding: 28px 24px;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeUp 0.7s ease forwards;
-    }
-
-    .card:nth-child(1) { animation-delay: 0.2s; }
-    .card:nth-child(2) { animation-delay: 0.4s; }
-    .card:nth-child(3) { animation-delay: 0.6s; }
-
-    .card h3 {
-      font-size: 1.1rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    .card p {
-      font-size: 0.85rem;
-      line-height: 1.7;
-      color: #bbb;
-    }
-
-    .card:hover {
-      background: #fff;
-      color: #000;
-      transition: background 0.2s, color 0.2s;
-    }
-    .card:hover p { color: #333; }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── ANIMATION 4: MARQUEE / TICKER ───────────── */
-    .marquee-wrap {
-      overflow: hidden;
-      border-top: 2px solid #fff;
-      border-bottom: 2px solid #fff;
-      padding: 18px 0;
-      background: #000;
-    }
-
-    .marquee-track {
-      display: flex;
-      width: max-content;
-      animation: marquee 12s linear infinite;
-      gap: 60px;
-    }
-
-    .marquee-track span {
-      font-size: 1.2rem;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .marquee-track span.dot { color: #fff; }
-
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-
-    /* ── ANIMATION 5: STICKMAN WALK ──────────────── */
-    .walk-section {
-      padding: 60px 10%;
-      border-bottom: 1px solid #333;
-      overflow: hidden;
-      position: relative;
-      min-height: 180px;
-    }
-
-    .walk-section .section-label { margin-bottom: 30px; }
-
-    .walker {
-      position: absolute;
-      bottom: 30px;
-      left: -100px;
-      width: 60px;
-      animation: walk 6s linear infinite;
-    }
-
-    /* alternate legs */
-    .walker .leg-l { animation: legL 0.4s ease-in-out infinite alternate; transform-origin: 30px 80px; }
-    .walker .leg-r { animation: legR 0.4s ease-in-out infinite alternate; transform-origin: 30px 80px; }
-    .walker .arm-l { animation: armL 0.4s ease-in-out infinite alternate; transform-origin: 30px 45px; }
-    .walker .arm-r { animation: armR 0.4s ease-in-out infinite alternate; transform-origin: 30px 45px; }
-
-    @keyframes walk    { to { left: calc(100% + 100px); } }
-    @keyframes legL    { to { transform: rotate(25deg); } }
-    @keyframes legR    { to { transform: rotate(-25deg); } }
-    @keyframes armL    { to { transform: rotate(-30deg); } }
-    @keyframes armR    { to { transform: rotate(30deg); } }
-
-    /* ── FOOTER ───────────────────────────────────── */
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 0.75rem;
-      letter-spacing: 4px;
-      color: #555;
-      text-transform: uppercase;
-    }
-
-  </style>
+  <!-- Our CSS file -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ── HERO ─────────────────────────────────────── -->
+  <!-- ── NOTEBOOK PAPER LINES (decorative, drawn by JS) ── -->
+  <canvas id="paper-lines"></canvas>
+
+  <!-- ── CURSOR DOODLE TRAIL ── -->
+  <canvas id="doodle-trail"></canvas>
+
+  <!-- ══════════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════ -->
   <section class="hero">
 
-    <!-- Hand-drawn stickman -->
-    <svg class="stickman" viewBox="0 0 60 90" fill="none"
-         stroke="#fff" stroke-width="2.5" stroke-linecap="round">
-      <!-- head -->
-      <circle cx="30" cy="12" r="10"/>
-      <!-- body -->
-      <line x1="30" y1="22" x2="30" y2="55"/>
-      <!-- left arm -->
-      <line x1="30" y1="32" x2="12" y2="45"/>
-      <!-- right arm -->
-      <line x1="30" y1="32" x2="48" y2="45"/>
-      <!-- left leg -->
-      <line x1="30" y1="55" x2="14" y2="78"/>
-      <!-- right leg -->
-      <line x1="30" y1="55" x2="46" y2="78"/>
+    <!-- Stickman hero - drawn via JS SVG path trick -->
+    <div class="stickman-wrap">
+      <svg class="stickman" viewBox="0 0 80 120" fill="none"
+           stroke="var(--ink)" stroke-linecap="round" stroke-linejoin="round">
+        <!-- head -->
+        <circle class="draw" cx="40" cy="16" r="13" stroke-width="2.5"/>
+        <!-- face: eyes -->
+        <circle cx="35" cy="14" r="1.5" fill="var(--ink)" class="draw"/>
+        <circle cx="45" cy="14" r="1.5" fill="var(--ink)" class="draw"/>
+        <!-- smile -->
+        <path class="draw" d="M35 20 Q40 25 45 20" stroke-width="2"/>
+        <!-- body -->
+        <line class="draw" x1="40" y1="29" x2="40" y2="70" stroke-width="2.5"/>
+        <!-- left arm raised -->
+        <line class="draw" x1="40" y1="42" x2="18" y2="30" stroke-width="2.5"/>
+        <!-- right arm down -->
+        <line class="draw" x1="40" y1="42" x2="62" y2="55" stroke-width="2.5"/>
+        <!-- left leg -->
+        <line class="draw" x1="40" y1="70" x2="22" y2="100" stroke-width="2.5"/>
+        <!-- right leg -->
+        <line class="draw" x1="40" y1="70" x2="58" y2="100" stroke-width="2.5"/>
+      </svg>
+
+      <!-- speech bubble -->
+      <div class="bubble" id="bubble">
+        <span id="bubble-text">hey there!</span>
+      </div>
+    </div>
+
+    <!-- Typewriter heading -->
+    <h1 class="typewriter" id="typewriter"></h1>
+    <p class="subtitle reveal-up">— a hand-drawn corner of the internet —</p>
+
+    <!-- scribble underline (drawn by JS) -->
+    <svg class="scribble-line" viewBox="0 0 300 20" preserveAspectRatio="none">
+      <path id="scribble-path" d="" stroke="var(--ink)" stroke-width="2.5"
+            fill="none" stroke-linecap="round"/>
     </svg>
 
-    <!-- Animation 1 → typewriter -->
-    <h1 class="typewriter">HELLO, WORLD!</h1>
-    <p class="subtitle">— my first animated website —</p>
-
+    <div class="scroll-hint reveal-up">↓ scroll down ↓</div>
   </section>
 
-  <!-- ── MARQUEE ───────────────────────────────────── -->
-  <!-- Animation 4 → scrolling ticker -->
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <!-- doubled so the loop is seamless -->
-      <span>HTML</span><span class="dot">✦</span>
-      <span>CSS</span><span class="dot">✦</span>
-      <span>ANIMATIONS</span><span class="dot">✦</span>
-      <span>STICKMAN</span><span class="dot">✦</span>
-      <span>KEEP BUILDING</span><span class="dot">✦</span>
-      <span>HTML</span><span class="dot">✦</span>
-      <span>CSS</span><span class="dot">✦</span>
-      <span>ANIMATIONS</span><span class="dot">✦</span>
-      <span>STICKMAN</span><span class="dot">✦</span>
-      <span>KEEP BUILDING</span><span class="dot">✦</span>
+  <!-- ══════════════════════════════════════════════════════
+       TICKER
+  ══════════════════════════════════════════════════════ -->
+  <div class="tape-wrap">
+    <div class="tape-track">
+      <span>HTML</span><span class="star">✏️</span>
+      <span>CSS</span><span class="star">✏️</span>
+      <span>JAVASCRIPT</span><span class="star">✏️</span>
+      <span>KEEP DRAWING</span><span class="star">✏️</span>
+      <span>KEEP CODING</span><span class="star">✏️</span>
+      <!-- duplicate for seamless loop -->
+      <span>HTML</span><span class="star">✏️</span>
+      <span>CSS</span><span class="star">✏️</span>
+      <span>JAVASCRIPT</span><span class="star">✏️</span>
+      <span>KEEP DRAWING</span><span class="star">✏️</span>
+      <span>KEEP CODING</span><span class="star">✏️</span>
     </div>
   </div>
 
-  <!-- ── SLIDE-IN HEADING + CARDS ──────────────────── -->
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE-IN SECTION
+  ══════════════════════════════════════════════════════ -->
   <section class="section">
-    <p class="section-label">Animation 02 — slide in</p>
+    <p class="section-label">page 01</p>
 
-    <!-- Animation 2 → words slide in from the left -->
-    <h2 class="slide-in">
-      <span>Learning&nbsp;</span>
-      <span>to&nbsp;</span>
-      <span>code&nbsp;</span>
-      <span>is&nbsp;</span>
-      <span>awesome</span>
+    <h2 class="slide-words">
+      <span>Learning</span>
+      <span>to</span>
+      <span>code</span>
+      <span>is</span>
+      <span>fun!</span>
     </h2>
 
-    <!-- Animation 3 → cards fade up -->
+    <!-- doodle arrow pointing at cards -->
+    <svg class="doodle-arrow" viewBox="0 0 80 60">
+      <path d="M10 10 Q40 5 65 40" stroke="var(--ink-light)" stroke-width="2"
+            fill="none" stroke-linecap="round" stroke-dasharray="200"
+            stroke-dashoffset="200" class="draw-path"/>
+      <path d="M58 50 L65 40 L72 50" stroke="var(--ink-light)" stroke-width="2"
+            fill="none" stroke-linecap="round"/>
+    </svg>
+
+    <!-- cards fade up -->
     <div class="cards">
-      <div class="card">
+      <div class="card" data-delay="0">
+        <div class="card-doodle">
+          <!-- mini HTML stickman icon -->
+          <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round">
+            <rect x="5" y="5" width="30" height="30" rx="3"/>
+            <path d="M12 15 L20 22 L28 15"/>
+            <line x1="12" y1="28" x2="28" y2="28"/>
+          </svg>
+        </div>
         <h3>HTML</h3>
-        <p>The skeleton of every webpage. You write the structure here — headings, paragraphs, images, links.</p>
+        <p>The skeleton of every webpage — headings, paragraphs, images, links.</p>
       </div>
-      <div class="card">
+      <div class="card" data-delay="150">
+        <div class="card-doodle">
+          <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round">
+            <circle cx="20" cy="20" r="14"/>
+            <path d="M14 14 Q20 8 26 14"/>
+            <path d="M14 26 Q20 32 26 26"/>
+          </svg>
+        </div>
         <h3>CSS</h3>
-        <p>CSS is what makes things look good. Colors, fonts, layouts — and all these animations!</p>
+        <p>Colors, fonts, layouts — and all these cool animations!</p>
       </div>
-      <div class="card">
+      <div class="card" data-delay="300">
+        <div class="card-doodle">
+          <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round">
+            <path d="M8 20 L16 12 L8 4"/>
+            <path d="M32 20 L24 12 L32 4"/>
+            <line x1="14" y1="36" x2="26" y2="36"/>
+          </svg>
+        </div>
         <h3>JavaScript</h3>
-        <p>The brain of the page. It lets you react to clicks, fetch data, and make things truly interactive.</p>
+        <p>The brain of the page — clicks, data, real interactivity.</p>
       </div>
     </div>
   </section>
 
-  <!-- ── WALKING STICKMAN ───────────────────────────── -->
-  <section class="walk-section">
-    <p class="section-label">Animation 05 — stickman walks</p>
+  <!-- ══════════════════════════════════════════════════════
+       INTERACTIVE: CLICK TO DRAW
+  ══════════════════════════════════════════════════════ -->
+  <section class="section draw-section">
+    <p class="section-label">page 02 — try it!</p>
+    <h2 class="reveal-up">Draw on the notebook ✏️</h2>
+    <p class="hint reveal-up">Click and drag anywhere in the box below</p>
 
-    <!-- Walking stickman made with SVG + CSS animation -->
+    <canvas id="drawing-canvas"></canvas>
+
+    <div class="draw-controls">
+      <button class="btn" id="btn-clear">🗑 Clear</button>
+      <button class="btn" id="btn-thick">thick</button>
+      <button class="btn" id="btn-thin">thin</button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       WALKING STICKMAN
+  ══════════════════════════════════════════════════════ -->
+  <section class="walk-section">
+    <p class="section-label">page 03</p>
+
     <svg class="walker" viewBox="0 0 60 90" fill="none"
-         stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+         stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round">
       <circle cx="30" cy="12" r="10"/>
+      <circle cx="26" cy="10" r="1.5" fill="var(--ink)"/>
+      <circle cx="34" cy="10" r="1.5" fill="var(--ink)"/>
+      <path d="M26 16 Q30 20 34 16" stroke-width="1.5"/>
       <line x1="30" y1="22" x2="30" y2="55"/>
       <g class="arm-l"><line x1="30" y1="32" x2="12" y2="45"/></g>
       <g class="arm-r"><line x1="30" y1="32" x2="48" y2="45"/></g>
       <g class="leg-l"><line x1="30" y1="55" x2="14" y2="78"/></g>
       <g class="leg-r"><line x1="30" y1="55" x2="46" y2="78"/></g>
     </svg>
+
+    <!-- ground dashes -->
+    <div class="ground"></div>
   </section>
 
-  <!-- ── FOOTER ─────────────────────────────────────── -->
+  <!-- ══════════════════════════════════════════════════════
+       COUNTER / STATS (animated by JS)
+  ══════════════════════════════════════════════════════ -->
+  <section class="section stats-section">
+    <p class="section-label">page 04 — numbers</p>
+    <h2 class="reveal-up">Things I'm learning</h2>
+
+    <div class="stats">
+      <div class="stat reveal-up" data-target="3">
+        <span class="stat-num">0</span>
+        <span class="stat-label">languages</span>
+      </div>
+      <div class="stat reveal-up" data-target="100" data-delay="200">
+        <span class="stat-num">0</span>
+        <span class="stat-label">lines of code</span>
+      </div>
+      <div class="stat reveal-up" data-target="42" data-delay="400">
+        <span class="stat-num">0</span>
+        <span class="stat-label">animations</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════ -->
   <footer>
-    made with html &amp; css &nbsp;✦&nbsp; keep drawing, keep coding
+    <svg class="footer-stickman" viewBox="0 0 60 90" fill="none"
+         stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="30" cy="12" r="10"/>
+      <line x1="30" y1="22" x2="30" y2="55"/>
+      <line x1="30" y1="32" x2="12" y2="45"/>
+      <line x1="30" y1="32" x2="48" y2="45"/>
+      <line x1="30" y1="55" x2="14" y2="78"/>
+      <line x1="30" y1="55" x2="46" y2="78"/>
+    </svg>
+    <p>made with ✏️ html · css · javascript</p>
+    <p class="small">keep drawing, keep coding</p>
   </footer>
 
+  <!-- Our JavaScript file -->
+  <script src="script.js"></script>
 </body>
 </html>
