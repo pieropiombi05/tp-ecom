@@ -16,7 +16,7 @@ const products = [
     price: 98,
     badge: 'new',
     colors: ['#e8e4dc', '#0a0a0a', '#9b1c1c'],
-    image: 'C:\Users\piero\OneDrive\Área de Trabalho\tp-ecom\images'
+    image: null, // ✏️ → 'images/archive-crewneck.jpg'
     description: '400gsm heavyweight crewneck. Oversized fit. Stone-washed.'
   },
   {
@@ -26,7 +26,7 @@ const products = [
     price: 55,
     badge: null,
     colors: ['#3d3d3d', '#e8e4dc'],
-    image: 'C:\Users\piero\OneDrive\Área de Trabalho\tp-ecom\images'
+    image: null,
     description: 'Box-cut tee in garment-washed 220gsm cotton.'
   },
   {
@@ -36,7 +36,7 @@ const products = [
     price: 130,
     badge: 'new',
     colors: ['#242424', '#6b6b6b', '#8a8a8a'],
-    image: 'C:\Users\piero\OneDrive\Área de Trabalho\tp-ecom\images'
+    image: null,
     description: 'Relaxed cargo in heavyweight ripstop. Six pockets.'
   },
   {
@@ -428,9 +428,8 @@ function setupEyeTracking() {
   window.addEventListener('mousemove', (e) => {
     eyes.forEach(eye => {
       const ellipse = eye.querySelector('ellipse');
-      const circles = eye.querySelectorAll('circle');
-      const pupil   = circles[0];
-      const shine   = circles[1];
+      const pupil = eye.querySelector('.pupil');
+      const shine = eye.querySelector('.shine');
       if (!ellipse || !pupil) return;
 
       const rect = ellipse.getBoundingClientRect();
@@ -463,3 +462,114 @@ function setupEyeTracking() {
 }
 
 setupEyeTracking();
+
+
+// ── 15. DARK / LIGHT MODE TOGGLE ──────────────────
+// Toggles body.dark class, saves preference to localStorage
+// so it persists across page refreshes.
+
+function setupThemeToggle() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+
+  // Apply saved preference on load
+  if (localStorage.getItem('womboo-theme') === 'dark') {
+    document.body.classList.add('dark');
+  }
+
+  btn.addEventListener('click', () => {
+    // ── Eye transition on mode switch ──────────────────
+    // 1. Eyes squeeze fully shut (scaleY → 0)
+    // 2. Theme flips while eyes are closed
+    // 3. Eyes slowly open wide in the new mode
+    blinkTransition(() => {
+      const isDark = document.body.classList.toggle('dark');
+      localStorage.setItem('womboo-theme', isDark ? 'dark' : 'light');
+    });
+
+    // Rotate the toggle button icon
+    btn.style.transition = 'transform 0.4s ease';
+    btn.style.transform  = 'rotate(180deg)';
+    setTimeout(() => { btn.style.transform = ''; }, 400);
+  });
+}
+
+// Full theme transition sequence:
+// 1. Eyes snap shut
+// 2. Page fades to a neutral mid-tone overlay (hides the colour swap)
+// 3. Theme class flips while overlay is opaque
+// 4. Overlay fades out revealing new palette
+// 5. Eyes spring open in new mode
+function blinkTransition(onClosed) {
+  const logo = document.querySelector('.logo-svg');
+  if (!logo) { onClosed(); return; }
+
+  const eyes    = logo.querySelectorAll('.eye');
+  const closeMs = 150;
+  const fadeMs  = 280;  // overlay fade in
+  const holdMs  = 80;   // hold at peak opacity
+  const openMs  = 550;
+
+  // ── Create a full-page overlay that fades in/out ──
+  let overlay = document.getElementById('theme-transition-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'theme-transition-overlay';
+    overlay.style.cssText = `
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none; opacity: 0;
+      transition: opacity ${fadeMs}ms ease;
+    `;
+    document.body.appendChild(overlay);
+  }
+
+  // Pick overlay colour: neutral mid-grey works for both directions
+  overlay.style.background = '#888480';
+
+  // ── Step 1: close eyes + fade overlay in simultaneously ──
+  eyes.forEach(eye => {
+    eye.querySelectorAll('ellipse, circle, path').forEach(el => {
+      el.style.transformBox    = 'fill-box';
+      el.style.transformOrigin = 'center';
+      el.style.transition      = `transform ${closeMs}ms cubic-bezier(0.55,0,1,0.8)`;
+      el.style.transform       = 'scaleY(0.03)';
+    });
+  });
+
+  // Start fading the overlay in right away
+  requestAnimationFrame(() => {
+    overlay.style.opacity = '0.55';
+  });
+
+  // ── Step 2: flip theme when overlay is near-peak ──
+  setTimeout(() => {
+    onClosed();
+
+    // ── Step 3: fade overlay back out ──
+    setTimeout(() => {
+      overlay.style.transition = `opacity ${fadeMs * 1.4}ms ease`;
+      overlay.style.opacity    = '0';
+    }, holdMs);
+
+    // ── Step 4: open eyes with a spring ──
+    eyes.forEach(eye => {
+      eye.querySelectorAll('ellipse, circle, path').forEach(el => {
+        el.style.transition = `transform ${openMs}ms cubic-bezier(0.18,1.35,0.4,1)`;
+        el.style.transform  = 'scaleY(1)';
+      });
+    });
+
+    // ── Step 5: clean up ──
+    setTimeout(() => {
+      eyes.forEach(eye => {
+        eye.querySelectorAll('ellipse, circle, path').forEach(el => {
+          el.style.transition = el.style.transform =
+          el.style.transformBox = el.style.transformOrigin = '';
+        });
+      });
+    }, openMs + 60);
+
+  }, fadeMs * 0.65);
+}
+
+setupThemeToggle();

@@ -39,6 +39,78 @@
   --shadow-lg: 0 12px 48px rgba(15,15,15,0.13);
 }
 
+/* ── DARK MODE OVERRIDES ────────────────────────────── */
+body.dark {
+  --black:      #f0ece4;
+  --black-2:    #e8e3db;
+  --black-3:    #ddd8d0;
+  --grey-dark:  #2e2e2e;
+  --grey-mid:   #5a5a5a;
+  --grey-light: #333333;
+  --concrete:   #888480;
+  --off-white:  #f0ece4;
+  --white:      #1a1a1a;
+  --cream:      #0f0f0f;
+  --cream-2:    #161616;
+  --cream-3:    #1e1e1e;
+  --shadow:     0 4px 24px rgba(0,0,0,0.5);
+  --shadow-lg:  0 12px 48px rgba(0,0,0,0.7);
+}
+
+/* Flip logo eye fills in dark mode */
+body.dark .logo-svg .eye ellipse,
+body.dark .footer-logo-svg ellipse { fill: #0f0f0f; stroke: #f0ece4; }
+body.dark .logo-svg .eye circle:nth-child(2),
+body.dark .footer-logo-svg circle:nth-child(2) { fill: #f0ece4; }
+body.dark .logo-svg .eye circle:nth-child(3),
+body.dark .footer-logo-svg circle:nth-child(3) { fill: #0f0f0f; }
+
+/* Flip logo text */
+body.dark .logo-text,
+body.dark .footer-logo-text { fill: #f0ece4; }
+
+/* Header in dark */
+body.dark .header { background: rgba(15,15,15,0.94); }
+
+/* Smooth theme transition — targeted so it doesn't fight
+   button/hover transitions or break animations */
+body, body header, body footer,
+body section, body nav, body aside,
+body .card, body .product-card, body .cart-sidebar,
+body .cart-item, body .feature, body .about-section,
+body .contact-section, body .filter-btn, body .btn-primary,
+body .btn-ghost, body .btn-checkout, body .mobile-menu,
+body .form-group input, body .form-group textarea {
+  transition: background-color 0.45s ease, border-color 0.45s ease,
+              color 0.45s ease !important;
+}
+/* SVG fills + strokes cross-fade too */
+body .logo-text, body .footer-logo-text { transition: fill 0.45s ease; }
+body .eyeball   { transition: fill 0.45s ease, stroke 0.45s ease; }
+body .pupil     { transition: fill 0.45s ease; }
+body .shine     { transition: fill 0.45s ease; }
+
+/* ── THEME TOGGLE BUTTON ────────────────────────────── */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border: 1px solid var(--grey-light);
+  border-radius: 50%;
+  color: var(--black);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.3s !important;
+}
+.theme-toggle:hover {
+  border-color: var(--black);
+  transform: rotate(22deg);
+}
+/* Show moon in light, sun in dark */
+.icon-sun  { display: none; }
+.icon-moon { display: block; }
+body.dark .icon-sun  { display: block; }
+body.dark .icon-moon { display: none; }
+
 /* ── RESET ──────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -280,6 +352,68 @@ h3      { font-family: var(--font-condensed); font-weight: 600; letter-spacing: 
   font-family: var(--font-display);
   font-size: 32px; fill: var(--black);
   letter-spacing: 3px;
+}
+
+
+/* ── EYE EXPRESSIONS ────────────────────────────────
+   Light mode = tired/sleepy (droopy lid + eye bags)
+   Dark  mode = wide awake / alert (fully open, bright pupil)
+──────────────────────────────────────────────────── */
+
+/* LIGHT MODE: show droopy lid + bags, hide wide-awake ring */
+.eye-veins      { display: none; }
+.eye-lid        { display: block; }
+.eye-bag        { display: block; }
+.eye-wide-ring  { display: none; }
+
+/* DARK MODE: hide lid + bags, show wide open ring */
+body.dark .eye-veins      { display: none; }
+body.dark .eye-lid        { display: none; }
+body.dark .eye-bag        { display: none; }
+body.dark .eye-wide-ring  { display: block; }
+
+/* LIGHT MODE: eyeball cream bg, dark pupil */
+.eyeball                  { fill: var(--cream); stroke: var(--black); }
+.eye .pupil               { fill: var(--black); }
+.eye .shine               { fill: var(--cream); }
+
+/* DARK MODE: dark eyeball, light/amber pupil so it stays visible */
+body.dark .eyeball        { fill: #0f0f0f; stroke: #f0ece4; }
+body.dark .eye .pupil     { fill: #e8c96e; }  /* warm amber — visible on dark */
+body.dark .eye .shine     { fill: #0f0f0f; }
+
+/* Lid fill always matches page bg so it masks cleanly */
+.eye-lid { fill: var(--cream); }
+
+/* Droopy lid slow sag animation — nodding off */
+.eye-lid {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: lidSag 4.5s ease-in-out infinite;
+}
+.eye:nth-child(3) .eye-lid { animation-delay: 0.3s; }
+@keyframes lidSag {
+  0%, 100% { transform: scaleY(1);    }
+  50%       { transform: scaleY(1.22); }
+}
+
+/* Eye bag gentle fade — half-asleep */
+.eye-bag {
+  animation: bagFade 4.5s ease-in-out infinite;
+}
+@keyframes bagFade {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 0.5;  }
+}
+
+/* Wide-awake ring: extra iris ring pulsing alertly in dark mode */
+.eye-wide-ring {
+  animation: alertPulse 2.5s ease-in-out infinite;
+}
+.eye:nth-child(3) .eye-wide-ring { animation-delay: 0.2s; }
+@keyframes alertPulse {
+  0%, 100% { opacity: 0.5;  transform: scale(1);    }
+  50%       { opacity: 0.9;  transform: scale(1.08); }
 }
 
 /* ── EYE ANIMATIONS ─────────────────────────── */
