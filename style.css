@@ -283,61 +283,10 @@ h3      { font-family: var(--font-condensed); font-weight: 600; letter-spacing: 
 }
 
 /* ── EYE ANIMATIONS ─────────────────────────── */
-
-/* Blink — fast snap shut, fast snap open */
-.logo-svg .eye ellipse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: eyeBlink 3.5s ease-in-out infinite;
-}
-.logo-svg .eye:nth-child(3) ellipse {
-  animation-delay: 0.07s;
-}
-
-@keyframes eyeBlink {
-  0%, 40%, 50%, 100% { transform: scaleY(1); }
-  44%                 { transform: scaleY(0.05); }
-  45%                 { transform: scaleY(0.05); }
-}
-
-/* Pupil — fades out exactly when eye closes */
-.logo-svg .eye circle:nth-child(2) {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: pupilRoam 3.5s ease-in-out infinite,
-             pupilBlink 3.5s ease-in-out infinite;
-}
-.logo-svg .eye:nth-child(3) circle:nth-child(2) {
-  animation: pupilRoam 3.5s ease-in-out infinite,
-             pupilBlink 3.5s ease-in-out infinite;
-  animation-delay: 0.07s;
-}
-
-/* Shine dot — same fade */
-.logo-svg .eye circle:nth-child(3) {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: pupilRoam 3.5s ease-in-out infinite,
-             pupilBlink 3.5s ease-in-out infinite;
-}
-.logo-svg .eye:nth-child(3) circle:nth-child(3) {
-  animation: pupilRoam 3.5s ease-in-out infinite,
-             pupilBlink 3.5s ease-in-out infinite;
-  animation-delay: 0.07s;
-}
-
-@keyframes pupilBlink {
-  0%, 40%, 50%, 100% { opacity: 1; }
-  43%, 46%            { opacity: 0; }
-}
-
-@keyframes pupilRoam {
-  0%   { transform: translate(0px,   0px); }
-  20%  { transform: translate(2px,  -1px); }
-  40%  { transform: translate(0px,   0px); }
-  60%  { transform: translate(-2px,  1px); }
-  80%  { transform: translate(1px,   2px); }
-  100% { transform: translate(0px,   0px); }
+/* Pupils are moved by JS mouse tracking */
+/* Smooth glide on the pupil & shine so they follow, not snap */
+.logo-svg .eye circle {
+  transition: transform 0.06s ease-out;
 }
 
 /* Cart button */

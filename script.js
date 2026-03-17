@@ -412,3 +412,54 @@ renderProducts();
 renderCart();
 animateHero();
 observeAll();
+
+
+// ── 14. LOGO EYE MOUSE TRACKING ───────────────────
+// Pupils follow the mouse cursor.
+// Calculates angle from each eye center to the mouse,
+// moves the pupil in that direction, clamped inside the eyeball.
+
+function setupEyeTracking() {
+  const logo = document.querySelector('.logo-svg');
+  if (!logo) return;
+
+  const eyes = logo.querySelectorAll('.eye');
+
+  window.addEventListener('mousemove', (e) => {
+    eyes.forEach(eye => {
+      const ellipse = eye.querySelector('ellipse');
+      const circles = eye.querySelectorAll('circle');
+      const pupil   = circles[0];
+      const shine   = circles[1];
+      if (!ellipse || !pupil) return;
+
+      const rect = ellipse.getBoundingClientRect();
+      const eyeX = rect.left + rect.width  / 2;
+      const eyeY = rect.top  + rect.height / 2;
+
+      const dx    = e.clientX - eyeX;
+      const dy    = e.clientY - eyeY;
+      const angle = Math.atan2(dy, dx);
+
+      // Max travel in SVG px — keep pupil inside ellipse
+      const maxTravel = 2.8;
+      const dist      = Math.min(Math.hypot(dx, dy) / (rect.width * 1.2), 1) * maxTravel;
+
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist;
+
+      pupil.style.transform = `translate(${tx}px, ${ty}px)`;
+      if (shine) shine.style.transform = `translate(${tx}px, ${ty}px)`;
+    });
+  });
+
+  // Reset on mouse leave
+  document.addEventListener('mouseleave', () => {
+    if (!logo) return;
+    logo.querySelectorAll('.eye circle').forEach(c => {
+      c.style.transform = 'translate(0px, 0px)';
+    });
+  });
+}
+
+setupEyeTracking();
