@@ -16,7 +16,7 @@ const products = [
     price: 98,
     badge: 'new',
     colors: ['#e8e4dc', '#0a0a0a', '#9b1c1c'],
-    image: 'C:\\Users\\piero\\OneDrive\\Área de Trabalho\\images.jpg',
+    image: 'C:\\Users\\piero\\Área de Trabalho\\images.jpg',
     description: '400gsm heavyweight crewneck. Oversized fit. Stone-washed.'
   },
   {
@@ -26,7 +26,7 @@ const products = [
     price: 55,
     badge: null,
     colors: ['#3d3d3d', '#e8e4dc'],
-    image: 'C:\\Users\\piero\\OneDrive\\Área de Trabalho\\images.jpg',
+    image: 'C:\\Users\\piero\\Área de Trabalho\\images.jpg',
     description: 'Box-cut tee in garment-washed 220gsm cotton.'
   },
   {
@@ -36,7 +36,7 @@ const products = [
     price: 130,
     badge: 'new',
     colors: ['#242424', '#6b6b6b', '#8a8a8a'],
-    image: 'C:\\Users\\piero\\OneDrive\\Área de Trabalho\\images.jpg',
+    image: 'C:\\Users\\piero\\Área de Trabalho\\images.jpg',
     description: 'Relaxed cargo in heavyweight ripstop. Six pockets.'
   },
   {
