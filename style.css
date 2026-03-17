@@ -284,51 +284,60 @@ h3      { font-family: var(--font-condensed); font-weight: 600; letter-spacing: 
 
 /* ── EYE ANIMATIONS ─────────────────────────── */
 
-/* Blink — squishes the whole eye ellipse on Y axis */
+/* Blink — fast snap shut, fast snap open */
 .logo-svg .eye ellipse {
   transform-box: fill-box;
   transform-origin: center;
-  animation: eyeBlink 4s ease-in-out infinite;
+  animation: eyeBlink 3.5s ease-in-out infinite;
 }
-/* Stagger second eye slightly so they don't blink in perfect sync */
 .logo-svg .eye:nth-child(3) ellipse {
-  animation-delay: 0.08s;
+  animation-delay: 0.07s;
 }
 
 @keyframes eyeBlink {
-  0%, 38%, 48%, 100% { transform: scaleY(1); }
-  43%                 { transform: scaleY(0.06); }
+  0%, 40%, 50%, 100% { transform: scaleY(1); }
+  44%                 { transform: scaleY(0.05); }
+  45%                 { transform: scaleY(0.05); }
 }
 
-/* Pupil roam — wanders around lazily between blinks */
+/* Pupil — fades out exactly when eye closes */
 .logo-svg .eye circle:nth-child(2) {
   transform-box: fill-box;
   transform-origin: center;
-  animation: pupilRoam 6s ease-in-out infinite;
+  animation: pupilRoam 3.5s ease-in-out infinite,
+             pupilBlink 3.5s ease-in-out infinite;
 }
 .logo-svg .eye:nth-child(3) circle:nth-child(2) {
-  animation: pupilRoam 6s ease-in-out infinite;
-  animation-delay: 0.3s;
+  animation: pupilRoam 3.5s ease-in-out infinite,
+             pupilBlink 3.5s ease-in-out infinite;
+  animation-delay: 0.07s;
 }
 
-@keyframes pupilRoam {
-  0%   { transform: translate(0px,    0px); }
-  18%  { transform: translate(2px,   -1px); }
-  36%  { transform: translate(-2px,   1px); }
-  54%  { transform: translate(1.5px,  2px); }
-  72%  { transform: translate(-1px,  -2px); }
-  100% { transform: translate(0px,    0px); }
-}
-
-/* Shine dot follows the pupil */
+/* Shine dot — same fade */
 .logo-svg .eye circle:nth-child(3) {
   transform-box: fill-box;
   transform-origin: center;
-  animation: pupilRoam 6s ease-in-out infinite;
+  animation: pupilRoam 3.5s ease-in-out infinite,
+             pupilBlink 3.5s ease-in-out infinite;
 }
 .logo-svg .eye:nth-child(3) circle:nth-child(3) {
-  animation: pupilRoam 6s ease-in-out infinite;
-  animation-delay: 0.3s;
+  animation: pupilRoam 3.5s ease-in-out infinite,
+             pupilBlink 3.5s ease-in-out infinite;
+  animation-delay: 0.07s;
+}
+
+@keyframes pupilBlink {
+  0%, 40%, 50%, 100% { opacity: 1; }
+  43%, 46%            { opacity: 0; }
+}
+
+@keyframes pupilRoam {
+  0%   { transform: translate(0px,   0px); }
+  20%  { transform: translate(2px,  -1px); }
+  40%  { transform: translate(0px,   0px); }
+  60%  { transform: translate(-2px,  1px); }
+  80%  { transform: translate(1px,   2px); }
+  100% { transform: translate(0px,   0px); }
 }
 
 /* Cart button */
