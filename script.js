@@ -1,359 +1,409 @@
 // ══════════════════════════════════════════════════════
-//  script.js  —  Notebook interactive behaviours
+//  script.js — Womboo Ecommerce
+//  Handles: products, cart, scroll animations,
+//           filter tabs, header, contact form
 // ══════════════════════════════════════════════════════
 
-// ── 1. NOTEBOOK PAPER LINES ────────────────────────
-// Draws horizontal blue lines + a red margin line
-// on a full-page canvas to look like real notebook paper.
 
-function drawPaperLines() {
-  const canvas = document.getElementById('paper-lines');
-  const ctx    = canvas.getContext('2d');
+// ── 1. PRODUCT DATA ────────────────────────────────
+// ✏️ Edit names, prices, categories, colours here.
+// To add a product image: set  image: 'images/your-photo.jpg'
 
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = document.body.scrollHeight;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const lineSpacing = 32;
-    const lineColor   = 'rgba(180, 200, 220, 0.45)';
-
-    // horizontal rule lines
-    ctx.strokeStyle = lineColor;
-    ctx.lineWidth   = 1;
-    for (let y = 80; y < canvas.height; y += lineSpacing) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(canvas.width, y);
-      ctx.stroke();
-    }
-
-    // red margin line
-    ctx.strokeStyle = 'rgba(220, 160, 165, 0.55)';
-    ctx.lineWidth   = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(55, 0);
-    ctx.lineTo(55, canvas.height);
-    ctx.stroke();
+const products = [
+  {
+    id: 1, name: 'Cloud Linen Shirt',
+    category: 'tops', price: 89,
+    badge: 'new', colors: ['#f5f0e8','#c8d4c0','#2b2318'],
+    image: null, // ✏️ replace with: 'images/cloud-linen-shirt.jpg'
+    description: 'Relaxed linen shirt in a soft cloud-weight weave.'
+  },
+  {
+    id: 2, name: 'Soft Knit Tee',
+    category: 'tops', price: 55,
+    badge: null, colors: ['#faf6f0','#d9cbb8','#c49a6c'],
+    image: null,
+    description: 'A gentle knit tee for all-day softness.'
+  },
+  {
+    id: 3, name: 'Wide Linen Trousers',
+    category: 'bottoms', price: 110,
+    badge: 'new', colors: ['#e8d5c4','#b5a28c'],
+    image: null,
+    description: 'Wide-leg trousers in breathable linen.'
+  },
+  {
+    id: 4, name: 'Easy Cargo Pants',
+    category: 'bottoms', price: 98,
+    badge: null, colors: ['#2b2318','#c8d4c0','#d9cbb8'],
+    image: null,
+    description: 'Relaxed cargo with soft utility pockets.'
+  },
+  {
+    id: 5, name: 'Boxy Overshirt',
+    category: 'outerwear', price: 130,
+    badge: null, colors: ['#f5f0e8','#2b2318'],
+    image: null,
+    description: 'A boxy overshirt in washed canvas.'
+  },
+  {
+    id: 6, name: 'Soft Knit Cardigan',
+    category: 'outerwear', price: 145,
+    badge: 'new', colors: ['#faf6f0','#e8d5c4','#c8d4c0'],
+    image: null,
+    description: 'Chunky knit cardigan in a palette of soft neutrals.'
+  },
+  {
+    id: 7, name: 'Organic Cotton Shorts',
+    category: 'bottoms', price: 72,
+    badge: null, colors: ['#b5a28c','#d9cbb8'],
+    image: null,
+    description: 'Lightweight organic cotton shorts with an easy drawstring.'
+  },
+  {
+    id: 8, name: 'Ribbed Tank Top',
+    category: 'tops', price: 42,
+    badge: 'sale', originalPrice: 58, colors: ['#faf6f0','#2b2318','#c49a6c'],
+    image: null,
+    description: 'A fine-rib tank in washed organic cotton.'
+  },
+  {
+    id: 9, name: 'Womboo Tote Bag',
+    category: 'accessories', price: 38,
+    badge: null, colors: ['#f5f0e8','#2b2318'],
+    image: null,
+    description: 'Heavy canvas tote with the Womboo eyes logo.'
+  },
+  {
+    id: 10, name: 'Scrunchie Set',
+    category: 'accessories', price: 22,
+    badge: null, colors: ['#e8d5c4','#c8d4c0','#d9cbb8'],
+    image: null,
+    description: 'Set of three scrunchies in coordinating linen fabrics.'
+  },
+  {
+    id: 11, name: 'Trench Coat',
+    category: 'outerwear', price: 220,
+    badge: 'new', colors: ['#d9cbb8','#2b2318'],
+    image: null,
+    description: 'A relaxed trench in water-resistant cotton blend.'
+  },
+  {
+    id: 12, name: 'Linen Cap',
+    category: 'accessories', price: 45,
+    badge: null, colors: ['#f5f0e8','#b5a28c','#2b2318'],
+    image: null,
+    description: 'Washed linen cap with tonal Womboo embroidery.'
   }
-
-  resize();
-  window.addEventListener('resize', resize);
-}
-
-drawPaperLines();
-
-
-// ── 2. TYPEWRITER EFFECT ────────────────────────────
-// Types out the heading character by character.
-
-function typewriter(elementId, text, speed = 80, startDelay = 600) {
-  const el = document.getElementById(elementId);
-  let i = 0;
-  setTimeout(() => {
-    const interval = setInterval(() => {
-      el.textContent += text[i];
-      i++;
-      if (i >= text.length) clearInterval(interval);
-    }, speed);
-  }, startDelay);
-}
-
-typewriter('typewriter', 'MY NOTEBOOK', 100, 700);
-
-
-// ── 3. SPEECH BUBBLE CYCLING ───────────────────────
-// The stickman cycles through fun phrases.
-
-const phrases = [
-  'hey there! 👋',
-  'let\'s learn!',
-  'draw with me!',
-  'code is fun!',
-  'don\'t give up!',
-  'you got this ✨'
 ];
-let phraseIndex = 0;
 
-function cycleBubble() {
-  const el = document.getElementById('bubble-text');
-  phraseIndex = (phraseIndex + 1) % phrases.length;
 
-  // quick fade out → change → fade in
-  el.style.transition = 'opacity 0.25s';
-  el.style.opacity    = '0';
-  setTimeout(() => {
-    el.textContent = phrases[phraseIndex];
-    el.style.opacity = '1';
-  }, 260);
+// ── 2. CART STATE ──────────────────────────────────
+// The cart is an array of { product, qty } objects.
+// All cart functions live here so they're easy to find.
+
+let cart = [];
+
+function getCartItem(productId) {
+  return cart.find(item => item.product.id === productId);
 }
 
-// Change every 2.5 seconds
-setInterval(cycleBubble, 2500);
+function addToCart(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
 
-
-// ── 4. SCRIBBLE UNDERLINE ──────────────────────────
-// Draws a wobbly hand-drawn underline under the heading.
-
-function drawScribble() {
-  const path = document.getElementById('scribble-path');
-  const points = [];
-  const steps  = 20;
-
-  for (let i = 0; i <= steps; i++) {
-    const x = (i / steps) * 300;
-    const y = 8 + (Math.random() * 8 - 4) + (i % 2 === 0 ? 3 : -3);
-    points.push([x, y]);
+  const existing = getCartItem(productId);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ product, qty: 1 });
   }
 
-  let d = `M ${points[0][0]} ${points[0][1]}`;
-  for (let i = 1; i < points.length - 1; i++) {
-    const mx = (points[i][0] + points[i + 1][0]) / 2;
-    const my = (points[i][1] + points[i + 1][1]) / 2;
-    d += ` Q ${points[i][0]} ${points[i][1]}, ${mx} ${my}`;
-  }
-
-  path.setAttribute('d', d);
-
-  // animate it drawing in
-  const len = 400;
-  path.style.strokeDasharray  = len;
-  path.style.strokeDashoffset = len;
-  path.style.transition = 'stroke-dashoffset 1.2s ease 2.2s';
-  setTimeout(() => { path.style.strokeDashoffset = '0'; }, 50);
+  renderCart();
+  openCart();
+  bumpCartCount();
 }
 
-drawScribble();
-
-
-// ── 5. SCROLL OBSERVER ────────────────────────────
-// Watches elements as they scroll into view and
-// adds the "visible" class to trigger CSS animations.
-
-function setupScrollObserver() {
-  const targets = document.querySelectorAll(
-    '.reveal-up, .card, .slide-words, .stat'
-  );
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el    = entry.target;
-        const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
-
-        setTimeout(() => {
-          el.classList.add('visible');
-
-          // trigger stat counter if it's a stat
-          if (el.classList.contains('stat')) {
-            animateCounter(el);
-          }
-
-          // draw the doodle arrow when slide-words are visible
-          if (el.classList.contains('slide-words')) {
-            const arrow = el.parentElement.querySelector('.draw-path');
-            if (arrow) arrow.classList.add('visible');
-          }
-        }, delay);
-
-        observer.unobserve(el);
-      }
-    });
-  }, { threshold: 0.2 });
-
-  targets.forEach(el => observer.observe(el));
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.product.id !== productId);
+  renderCart();
 }
 
-setupScrollObserver();
+function changeQty(productId, delta) {
+  const item = getCartItem(productId);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(productId);
+  else renderCart();
+}
 
+function getCartTotal() {
+  return cart.reduce((sum, item) => sum + item.product.price * item.qty, 0);
+}
 
-// ── 6. ANIMATED COUNTER ───────────────────────────
-// Counts up from 0 to the data-target number,
-// like an odometer ticking.
-
-function animateCounter(statEl) {
-  const numEl  = statEl.querySelector('.stat-num');
-  const target = parseInt(statEl.dataset.target);
-  const duration = 1400; // ms
-  const start    = performance.now();
-
-  function update(now) {
-    const elapsed  = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    // ease-out curve
-    const eased = 1 - Math.pow(1 - progress, 3);
-    numEl.textContent = Math.round(eased * target);
-    if (progress < 1) requestAnimationFrame(update);
-  }
-
-  requestAnimationFrame(update);
+function getCartCount() {
+  return cart.reduce((sum, item) => sum + item.qty, 0);
 }
 
 
-// ── 7. CURSOR DOODLE TRAIL ────────────────────────
-// Leaves a small pencil-mark trail behind the cursor.
+// ── 3. RENDER CART ─────────────────────────────────
+function renderCart() {
+  const container  = document.getElementById('cart-items');
+  const totalEl    = document.getElementById('cart-total-price');
+  const countEl    = document.getElementById('cart-count');
 
-function setupCursorTrail() {
-  const canvas = document.getElementById('doodle-trail');
-  const ctx    = canvas.getContext('2d');
+  // Update count badge
+  const count = getCartCount();
+  countEl.textContent = count;
 
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-  window.addEventListener('resize', () => {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
+  // Update total
+  totalEl.textContent = '$' + getCartTotal().toFixed(2);
 
-  const trail = [];   // stores recent positions
-  let mouse = { x: -999, y: -999 };
-
-  window.addEventListener('mousemove', e => {
-    mouse = { x: e.clientX, y: e.clientY };
-    trail.push({ x: mouse.x, y: mouse.y, age: 0 });
-    if (trail.length > 22) trail.shift();
-  });
-
-  function render() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = 1; i < trail.length; i++) {
-      const t     = trail[i];
-      const prev  = trail[i - 1];
-      const alpha = (i / trail.length) * 0.55;
-      const width = (i / trail.length) * 2.5;
-
-      ctx.beginPath();
-      ctx.moveTo(prev.x, prev.y);
-      ctx.lineTo(t.x, t.y);
-      ctx.strokeStyle = `rgba(26, 18, 9, ${alpha})`;
-      ctx.lineWidth   = width;
-      ctx.lineCap     = 'round';
-      ctx.stroke();
-    }
-
-    // age & remove old points
-    for (let i = trail.length - 1; i >= 0; i--) {
-      trail[i].age++;
-      if (trail[i].age > 30) trail.splice(i, 1);
-    }
-
-    requestAnimationFrame(render);
+  // Render items
+  if (cart.length === 0) {
+    container.innerHTML = '<p class="cart-empty">Your bag is empty 🌿</p>';
+    return;
   }
 
-  render();
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item" data-id="${item.product.id}">
+      <div class="cart-item-img">
+        ${item.product.image
+          ? `<img src="${item.product.image}" alt="${item.product.name}">`
+          : `<svg width="28" height="28" viewBox="0 0 64 64" fill="none" stroke="#b5a28c" stroke-width="1.5">
+               <rect x="8" y="8" width="48" height="48" rx="4"/>
+               <circle cx="32" cy="28" r="10"/>
+               <path d="M16 56 Q32 42 48 56"/>
+             </svg>`
+        }
+      </div>
+      <div class="cart-item-info">
+        <h4>${item.product.name}</h4>
+        <span class="cart-item-price">$${item.product.price.toFixed(2)}</span>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${item.product.id}, -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.product.id}, +1)">+</button>
+        </div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${item.product.id})" aria-label="Remove">✕</button>
+    </div>
+  `).join('');
 }
 
-setupCursorTrail();
 
-
-// ── 8. DRAWING CANVAS ────────────────────────────
-// A mini drawing board where the user can scribble
-// with their mouse / finger.
-
-function setupDrawingCanvas() {
-  const canvas = document.getElementById('drawing-canvas');
-  const ctx    = canvas.getContext('2d');
-
-  // set canvas pixel size to match CSS size
-  function syncSize() {
-    const rect = canvas.getBoundingClientRect();
-    canvas.width  = rect.width;
-    canvas.height = rect.height;
-    ctx.lineCap   = 'round';
-    ctx.lineJoin  = 'round';
-  }
-  syncSize();
-  window.addEventListener('resize', syncSize);
-
-  let drawing  = false;
-  let lineWidth = 3;
-  ctx.strokeStyle = '#1a1209';
-
-  function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    if (e.touches) {
-      return {
-        x: e.touches[0].clientX - rect.left,
-        y: e.touches[0].clientY - rect.top
-      };
-    }
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-  }
-
-  function startDraw(e) {
-    drawing = true;
-    const pos = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-    e.preventDefault();
-  }
-
-  function draw(e) {
-    if (!drawing) return;
-    const pos = getPos(e);
-    ctx.lineWidth = lineWidth;
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-    e.preventDefault();
-  }
-
-  function stopDraw() { drawing = false; }
-
-  // mouse events
-  canvas.addEventListener('mousedown',  startDraw);
-  canvas.addEventListener('mousemove',  draw);
-  canvas.addEventListener('mouseup',    stopDraw);
-  canvas.addEventListener('mouseleave', stopDraw);
-
-  // touch events (mobile)
-  canvas.addEventListener('touchstart', startDraw, { passive: false });
-  canvas.addEventListener('touchmove',  draw,      { passive: false });
-  canvas.addEventListener('touchend',   stopDraw);
-
-  // control buttons
-  document.getElementById('btn-clear').addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  });
-
-  document.getElementById('btn-thick').addEventListener('click', function() {
-    lineWidth = 7;
-    this.classList.add('active-btn');
-    document.getElementById('btn-thin').classList.remove('active-btn');
-  });
-
-  document.getElementById('btn-thin').addEventListener('click', function() {
-    lineWidth = 1.5;
-    this.classList.add('active-btn');
-    document.getElementById('btn-thick').classList.remove('active-btn');
-  });
+// ── 4. OPEN / CLOSE CART ───────────────────────────
+function openCart() {
+  document.getElementById('cart-sidebar').classList.add('open');
+  document.getElementById('cart-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-setupDrawingCanvas();
+function closeCart() {
+  document.getElementById('cart-sidebar').classList.remove('open');
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function bumpCartCount() {
+  const el = document.getElementById('cart-count');
+  el.classList.remove('bump');
+  void el.offsetWidth; // force reflow
+  el.classList.add('bump');
+}
+
+document.getElementById('cart-btn').addEventListener('click', openCart);
+document.getElementById('cart-close').addEventListener('click', closeCart);
+document.getElementById('cart-overlay').addEventListener('click', closeCart);
 
 
-// ── 9. CARD CLICK WIGGLE ──────────────────────────
-// Cards do a quick wiggle when clicked — a small
-// example of adding JS to CSS animations.
+// ── 5. RENDER PRODUCT GRID ─────────────────────────
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('product-grid');
+  const filtered = filter === 'all'
+    ? products
+    : products.filter(p => p.category === filter);
 
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('click', () => {
-    card.style.animation = 'wiggle 0.4s ease';
-    card.addEventListener('animationend', () => {
-      card.style.animation = '';
-    }, { once: true });
+  grid.innerHTML = filtered.map((p, i) => `
+    <div class="product-card" data-id="${p.id}" style="transition-delay:${(i % 4) * 80}ms">
+      <div class="product-img-wrap">
+
+        ${p.image
+          ? `<img src="${p.image}" alt="${p.name}" loading="lazy">`
+          : `<div class="product-img-placeholder">
+               <svg width="40" height="40" viewBox="0 0 64 64" fill="none" stroke="#b5a28c" stroke-width="1.5">
+                 <rect x="8" y="8" width="48" height="48" rx="4"/>
+                 <circle cx="32" cy="28" r="10"/>
+                 <path d="M16 56 Q32 42 48 56"/>
+               </svg>
+               <span>Add photo</span>
+             </div>`
+        }
+
+        ${p.badge ? `<span class="product-tag-badge tag-${p.badge}">${p.badge}</span>` : ''}
+
+        <button class="product-quick-add" onclick="addToCart(${p.id})">
+          + Add to bag
+        </button>
+      </div>
+
+      <div class="product-info">
+        <div class="product-info-top">
+          <span class="product-name">${p.name}</span>
+          <span class="product-price">
+            ${p.originalPrice ? `<span class="original">$${p.originalPrice}</span>` : ''}
+            $${p.price}
+          </span>
+        </div>
+        <div class="product-category">${p.category}</div>
+        <div class="product-colors">
+          ${p.colors.map(c =>
+            `<span class="color-dot" style="background:${c}" title="${c}"></span>`
+          ).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Re-observe cards for scroll animation
+  observeCards();
+}
+
+
+// ── 6. FILTER TABS ─────────────────────────────────
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+
+    // Fade grid out, swap, fade in
+    const grid = document.getElementById('product-grid');
+    grid.style.opacity = '0';
+    grid.style.transform = 'translateY(10px)';
+    grid.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    setTimeout(() => {
+      renderProducts(filter);
+      grid.style.opacity = '1';
+      grid.style.transform = 'translateY(0)';
+    }, 250);
   });
 });
 
-// inject the wiggle keyframes dynamically (good JS trick!)
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes wiggle {
-    0%   { transform: rotate(0deg)   translateY(0); }
-    20%  { transform: rotate(-4deg)  translateY(-4px); }
-    40%  { transform: rotate(4deg)   translateY(-4px); }
-    60%  { transform: rotate(-3deg)  translateY(-2px); }
-    80%  { transform: rotate(2deg)   translateY(-2px); }
-    100% { transform: rotate(0deg)   translateY(0); }
+
+// ── 7. SCROLL REVEAL ──────────────────────────────
+// Uses IntersectionObserver to add .in-view to elements
+// when they scroll into the viewport.
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el    = entry.target;
+      const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
+      setTimeout(() => el.classList.add('in-view'), delay);
+      revealObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.15 });
+
+function observeAll() {
+  document.querySelectorAll('.reveal-up, .reveal-fade').forEach(el => {
+    revealObserver.observe(el);
+  });
+}
+
+function observeCards() {
+  document.querySelectorAll('.product-card').forEach(card => {
+    revealObserver.observe(card);
+  });
+}
+
+
+// ── 8. HERO TEXT REVEAL ───────────────────────────
+// Animates each line of the hero title on load.
+
+function animateHeroLines() {
+  document.querySelectorAll('.hero-title .reveal-line').forEach((line, i) => {
+    const delay = parseInt(line.dataset.delay || 0);
+    line.style.opacity = '0';
+    line.style.transform = 'translateY(40px)';
+    line.style.transition = `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`;
+    // trigger after a tiny delay to allow transition to register
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        line.style.opacity = '1';
+        line.style.transform = 'translateY(0)';
+      });
+    });
+  });
+}
+
+
+// ── 9. STICKY HEADER ──────────────────────────────
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  if (window.scrollY > 20) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
   }
-`;
-document.head.appendChild(style);setupCursorTrail
+}, { passive: true });
+
+
+// ── 10. MOBILE HAMBURGER ──────────────────────────
+document.getElementById('hamburger').addEventListener('click', function () {
+  this.classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+// Close mobile menu when a link is clicked
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('mobile-menu').classList.remove('open');
+  });
+});
+
+
+// ── 11. CONTACT FORM ──────────────────────────────
+document.getElementById('contact-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  // ✏️ Replace this with a real form submission (e.g. Formspree, EmailJS)
+  const successMsg = document.getElementById('form-success');
+  successMsg.classList.add('show');
+  this.reset();
+  setTimeout(() => successMsg.classList.remove('show'), 4000);
+});
+
+
+// ── 12. SMOOTH ANCHOR SCROLLING ───────────────────
+// Accounts for the fixed header height when jumping to sections.
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
+    const top = target.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+
+
+// ── 13. PARALLAX BLOBS ────────────────────────────
+// Gives the hero background blobs a gentle parallax on scroll.
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const b1 = document.querySelector('.blob-1');
+  const b2 = document.querySelector('.blob-2');
+  const b3 = document.querySelector('.blob-3');
+  if (b1) b1.style.transform = `translateY(${y * 0.15}px)`;
+  if (b2) b2.style.transform = `translateY(${-y * 0.1}px)`;
+  if (b3) b3.style.transform = `translateY(${y * 0.08}px)`;
+}, { passive: true });
+
+
+// ── INIT ──────────────────────────────────────────
+renderProducts();   // build the product grid
+renderCart();       // initialise cart badge at 0
+animateHeroLines(); // kick off hero text animation
+observeAll();       // start scroll observers
